@@ -13,6 +13,7 @@ The whole program takes place in a central class called **Application** or **Eng
 ## Settings
 
 We can store settings in XML files and parse them with pugixml. We can also use simple config files : 
+    
     [Category]
     jump=spacebar
     up=z
@@ -70,6 +71,12 @@ It could be interesting to describe them with XML, like JavaFX.
 ## Animations
 
 Every graphical object (or blob) can be animated with temporary objects of the class Animation. Animations are simply objects that when updating, alter gradually the parameters of the target object(s).  All animations have a set duration or a parameter goal (go to position (x,y), set opacity to 0). Animations also handle their own interval, although since they are called by the main class, they cannot be faster than it when updating (but they can be slower, which is of interest). Should animations hold their own timer object (each) ?
+
+As some animations can work against each other, a graphical object holds a map of animations : it can only hold one animation of each type at a time. For example, you cannot put a FadeIn and a FadeOut on the same object (as they would never reach their goal, counteracting each other until the end of time). For now there are 3 types :
+* fading (fade in, fade out)
+* movement (translation)
+* text (action on text)
+
 
 Animations that have been implemented so far :
 
