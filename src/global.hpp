@@ -21,6 +21,7 @@
 
 struct Size {
 	int w,h;
+	Size() {w = h = 0;}
 	Size(int a, int b) : w(a), h(b) {}
 };
 

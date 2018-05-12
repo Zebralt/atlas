@@ -1,9 +1,9 @@
 #ifndef temporary_hpp__
 #define temporary_hpp__
 
-#define TERMINATED  0
-#define RUNNING     1
-#define IDLE        2
+enum TemporaryState {
+	TERMINATED, RUNNING, IDLE
+};
 
 class Temporary {
 protected:

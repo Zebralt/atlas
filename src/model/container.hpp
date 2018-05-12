@@ -6,10 +6,10 @@
 template <typename T>
 class Container {
 public:
-    std::vector<T> _items;
-    virtual void add(T t) { _items.push_back(t); }
-    virtual std::vector<T>& items() { return _items; }
-    virtual T get(const int& i) {if (i >= 0 && i < _items.size()) return _items[i];}
+    std::vector<T> items;
+    virtual void add(T t) { items.push_back(t); }
+    virtual std::vector<T>& all_items() { return items; }
+    virtual T get(const int& i) {if (i >= 0 && i < items.size()) return items[i];}
 };
 
 template <typename T>
