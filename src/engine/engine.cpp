@@ -1,10 +1,106 @@
 #include "../global.hpp"
 #include "engine.hpp"
+#include "engine_program.hpp"
 
 #include "../tools/strmanip.hpp"
 #include "audio/sound.hpp"
 
 #include <iomanip>
+
+/// 
+
+Engine::Engine() {
+    
+}
+
+bool Engine::init() {
+    /// 1. load settings from XML files
+    /// 2. load SFML context settings
+    
+//    sf::ContextSettings context_settings;
+//	context_settings.antialiasingLevel = 8;
+//	window = new sf::RenderWindow(sf::VideoMode(settings.resolution.width, settings.resolution.height), "test sfml app",sf::Style::Close,context_settings);
+//    keyregister.init();
+//    if (!loadGlobalFont("resources/fonts/Roboto-Medium.ttf")) {
+//        return false;
+//    }
+
+    return true;
+}
+
+void Engine::run() {
+    /// 1. load engine graph (from program to program) from XML ? I suppose we could do that
+    program = new EngineProgramSequence(this);
+    /// 2. initialize first program
+    program->init();
+    /// 3. enter main loop
+    while (status && window->isOpen()) {
+        handle_events();
+        update();
+        update_screen();
+    }
+}
+
+void Engine::update() {
+    /// 1. update program
+    /// 2. update graphical objects
+    /// 3. if they are terminated, delete the object or go to the next program
+}
+
+void Engine::update_screen() {
+    
+    // draw a black background
+    window->clear(sf::Color::Black);
+    
+    /// 1. draw all graphical objects
+    /// 2. draw UI widgets atop
+    /// 3. draw transition element
+    
+    window->display();
+    
+}
+
+/// EVENTS MANAGEMENT //////////////////////////////////////////////////////////////////////////////////////
+
+void Engine::handle_events() {
+    sf::Event event;
+    while (window->pollEvent(event)) {
+        if (event.type == sf::Event::Closed || !program) {
+            status = 0;
+            window->close();
+            return;
+        }
+
+        handle_keyboard_events(event);
+        
+        handle_mouse_events(event);
+        
+        program->handle_events(event);
+    }
+}
+
+void Engine::handle_keyboard_events(sf::Event& event) {
+    if (event.type == sf::Event::MouseButtonPressed) {
+        handle_mouseclick_events(event);
+    }
+    else if (event.type == sf::Event::MouseMoved) {
+        handle_mouseover_events(event);
+    }
+}
+
+void Engine::handle_mouse_events(sf::Event& event) {
+
+}
+
+void Engine::handle_mouseover_events(sf::Event& event) {
+
+}
+
+void Engine::handle_mouseclick_events(sf::Event& event) {
+
+}
+
+/// RESSOURCES MANAGEMENT //////////////////////////////////////////////////////////////////////////////////
 
 bool Engine::load_global_font(const std::string& path) {
     return global_font.loadFromFile(path);
@@ -171,6 +267,8 @@ bool Engine::free_resources() {
     
     return true;
 }
+
+/// QUIT
 
 void Engine::quit() {
 	free_resources();

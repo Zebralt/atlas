@@ -1,8 +1,19 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
+#include "engine/engine.hpp"
+
+int test_SFML();
 
 int main()
 {
+    Engine myEngine;
+    myEngine.init();
+    myEngine.run();
+    
+    return 0;
+}
+
+int test_SFML() {
     sf::RenderWindow window(sf::VideoMode(200, 200), "SFML works!");
     sf::CircleShape shape(100.f);
     shape.setFillColor(sf::Color::Green);
@@ -14,7 +25,7 @@ int main()
 //    sf::Sound sound;
 //    sound.setBuffer(buffer);
 //    sound.play();
-
+//
 //    sf::Music music;
 //    if (!music.openFromFile("../resources/theircoming.ogg"))
 //        return -1; // erreur
@@ -33,6 +44,4 @@ int main()
         window.draw(shape);
         window.display();
     }
-
-    return 0;
 }

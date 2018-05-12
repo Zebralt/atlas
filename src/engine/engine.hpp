@@ -9,8 +9,15 @@
 #include <SFML/Audio.hpp>
 
 class Settings;
+
 class Sound;
 class Music;
+
+class Widget;
+class Blob;
+
+class EngineProgram;
+class Transition;
 
 enum ENGINE_STATE {
  TERMINATED  = 0,
@@ -33,13 +40,22 @@ public:
 	Engine();
 	
 	void load_settings(Settings&);
+	
+	/// This must be run first.
+	bool init();
+	
+	/// This must be run next to launch the engine.
 	void run();
-	void event_catcher();
-		void keyboard_events();
-		void mouse_events();
-			void mouseover_events();
-			void mouseclick_events();
+	
+	void handle_events();
+		void handle_keyboard_events(sf::Event&);
+		void handle_mouse_events(sf::Event&);
+			void handle_mouseover_events(sf::Event&);
+			void handle_mouseclick_events(sf::Event&);
+	
 	void update();
+	
+	void update_screen();
 	
 	// PLAY A SOUND FROM NAME
 	bool play_sound(const std::string& sound);
@@ -82,12 +98,20 @@ public:
 		
 private:
 	
+	/// SFML ELEMENTS
+	sf::RenderWindow* window = nullptr;
+	
+	///./..
+	Transition* transition = nullptr;
+	EngineProgram* program = nullptr;
+	int status = 1;
+	
 	/// SETTINGS
 //	Settings settings;
 	
 	/// SCREEN OBJECTS
 	// LIST OF UI WIDGETS
-//	std::vector<Widget*> widgets;
+	std::vector<Widget*> widgets;
 	// LIST OF OTHER OBJECTS (SUCH AS GAME OBJECTS)
 //    std::vector<Blob*> blobs;
     // If you want to have some game objects mouseover or mouseclick -enabled,
