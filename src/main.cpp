@@ -1,16 +1,16 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include "engine/engine.hpp"
+#include "game/snake_game/snake_game.hpp"
+#include <windows.h>
 
 int test_SFML();
 
-int main()
-{
-    Engine myEngine;
-    myEngine.init();
-    myEngine.run();
-    
-    return 0;
+int main() {
+    Engine::init();
+//    Engine::load_scene(new SnakeGameScene(10,10));
+    Engine::run();
+    return Engine::get_status();
 }
 
 int test_SFML() {
@@ -18,18 +18,23 @@ int test_SFML() {
     sf::CircleShape shape(100.f);
     shape.setFillColor(sf::Color::Green);
     
-//    sf::SoundBuffer buffer;
-//// on charge quelque chose dans le buffer...
-//    buffer.loadFromFile("../resources/theircoming.ogg");
-//
-//    sf::Sound sound;
-//    sound.setBuffer(buffer);
-//    sound.play();
-//
-//    sf::Music music;
-//    if (!music.openFromFile("../resources/theircoming.ogg"))
-//        return -1; // erreur
-//    music.play();
+    sf::Font font;
+    font.loadFromFile("");
+        
+    sf::SoundBuffer buffer;
+// on charge quelque chose dans le buffer...
+    buffer.loadFromFile("resources/theircoming.ogg");
+
+    sf::Sound sound;
+    sound.setBuffer(buffer);
+    sound.play();
+    
+    Sleep(1000);
+
+    sf::Music music;
+    if (!music.openFromFile("resources/theircoming.ogg"))
+        return -1; // erreur
+    music.play();
     
     while (window.isOpen())
     {

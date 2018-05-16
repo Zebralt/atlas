@@ -6,6 +6,12 @@
 #include "widget.hpp"
 //#include "ui.hpp"
 
+/// SOme ideas before I forget :
+/// Label could use Engine::global_font by default if no font specified
+/// If initial text, have label of the length of the text (duh...)
+/// or at least have the position of label refers to the left edge
+/// of the text.
+
 enum TextAlign {Left,Center,Right};
 
 class Label : public Widget {

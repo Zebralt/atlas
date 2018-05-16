@@ -1,0 +1,4 @@
+#ifndef ANIMATABLE_HPP_
+#define ANIMATABLE_HPP_
+
+#endif // ANIMATABLE_HPP8

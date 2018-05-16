@@ -7,19 +7,19 @@
 //	return rand()%(max-min)+min;
 //}
 
-Picture::Picture() : Blob() {
+Sprite::Sprite() : Blob() {
     //m_sprite.setTexture(m_texture);
 }
 
-Picture::Picture(sf::Texture* t) : Blob() {
+Sprite::Sprite(sf::Texture* t) : Blob() {
 	importTexture(t);
 }
 
-Picture::Picture(std::string s) : Blob() {
+Sprite::Sprite(std::string s) : Blob() {
 	setOwnTexture(s);
 }
 
-bool Picture::setOwnTexture(std::string s) {
+bool Sprite::setOwnTexture(std::string s) {
     m_texture = new sf::Texture();
     if (!m_texture->loadFromFile(s)) {
         return false;
@@ -33,7 +33,7 @@ bool Picture::setOwnTexture(std::string s) {
     }
 }
 
-void Picture::importTexture(sf::Texture* t) {
+void Sprite::importTexture(sf::Texture* t) {
        if (t) {
 			srand(time(NULL));
 			m_texture = t;
@@ -45,23 +45,27 @@ void Picture::importTexture(sf::Texture* t) {
        }
 }
 
-void Picture::setTexture(sf::Texture* t, sf::IntRect texrec) {
+void Sprite::setTexture(sf::Texture* t) {
+	importTexture(t);
+}
+
+void Sprite::setTexture(sf::Texture* t, sf::IntRect texrec) {
 	importTexture(t);
 	setTextureRect(texrec);
 }
 
-void Picture::setTextureRect(sf::IntRect texrec) {
+void Sprite::setTextureRect(sf::IntRect texrec) {
 	m_sprite.setTextureRect(texrec);
 	setSize(texrec.width, texrec.height);
 	LOG("texrect");
 }
 
-void Picture::setPosition(sf::Vector2f v) {
+void Sprite::setPosition(sf::Vector2f v) {
     Blob::setPosition(v);
     m_sprite.setPosition(position);
 }
 
-void Picture::setOrigin(sf::Vector2f v) {
+void Sprite::setOrigin(sf::Vector2f v) {
 //    position = position - origin + v;
 //    origin = v;
 //    background.setPosition(position);
@@ -69,13 +73,13 @@ void Picture::setOrigin(sf::Vector2f v) {
     m_sprite.setPosition(position);
 }
 
-void Picture::setOpacity(int r) {
+void Sprite::setOpacity(int r) {
     opacity = (r>255?255:r<0?0:r);
     background.setFillColor(sf::Color(background.getFillColor().r,background.getFillColor().g,background.getFillColor().b,opacity));
     m_sprite.setColor(sf::Color(m_sprite.getColor().r,m_sprite.getColor().g,m_sprite.getColor().b,opacity));
 }
 
-void Picture::setSize(int w, int h) {
+void Sprite::setSize(int w, int h) {
 	if (width && height) m_sprite.setScale(float(w)/width,float(h)/height);
 	else m_sprite.setScale(w/1,h/1);
 	Blob::setSize(w,h);
@@ -84,31 +88,31 @@ void Picture::setSize(int w, int h) {
 //	LOG("SIZE=" << width << ":" << height);
 }
 
-void Picture::setSize(const sf::Vector2i& v) {
+void Sprite::setSize(const sf::Vector2i& v) {
 	setSize(v.x, v.y);
 }
 
-void Picture::rotate(float angle, sf::Vector2f p) {
+void Sprite::rotate(float angle, sf::Vector2f p) {
 	transform.rotate(angle,p);
 }
 
 /// ANIMATED PICTURE
 
-AnimatedPicture::AnimatedPicture(int interval, int wait) : Picture() {
+AnimatedPicture::AnimatedPicture(int interval, int wait) : Sprite() {
     framePosition = sf::Vector2f(0,0);
     iterators = sf::Vector3i(0,0,0);
     repeat = false;
     this->interval = interval;
 }
 
-AnimatedPicture::AnimatedPicture(sf::Texture* t, int interval, int wait) : Picture(t) {
+AnimatedPicture::AnimatedPicture(sf::Texture* t, int interval, int wait) : Sprite(t) {
     framePosition = sf::Vector2f(0,0);
     iterators = sf::Vector3i(0,0,0);
     repeat = false;
     this->interval = interval;
 }
 
-AnimatedPicture::AnimatedPicture(std::string str, int interval, int wait) : Picture(str) {
+AnimatedPicture::AnimatedPicture(std::string str, int interval, int wait) : Sprite(str) {
     framePosition = sf::Vector2f(0,0);
     iterators = sf::Vector3i(0,0,0);
     repeat = false;
@@ -139,7 +143,7 @@ void AnimatedPicture::setRefreshInterval(int interval) {
 }
 
 void AnimatedPicture::update() {
-	Picture::update();
+	Sprite::update();
 	if (status == RUNNING) {
 		int now = timer.getTime().asMilliseconds();
 		if (now - past >= interval) {

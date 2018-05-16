@@ -5,17 +5,36 @@
 */
 
 #include <iostream>
+#include <SFML/Graphics/Rect.hpp>
+
+//#include "tools/vector2_operators.hpp"
 
 /// MACROS
-#define print(x) std::cout << x
-#define println(x) print(x) << std::endl
-#define PRINT(x) print(x)
-#define PRINTLN(x) println(x)
-#define LOG(x) println(x)
+#define PRINT(x) std::cout << x
+#define PRINTLN(x) PRINT(x) << std::endl
+#define println(x) PRINT(x) << std::endl
+#define LOG(x) PRINTLN(x)
 
 /// TYPENAMES
 
+typedef unsigned int uint;
+typedef sf::IntRect Rect;
+
+template <typename T> class ptr_vector : public std::vector<T*> {};
+
 /// FUNCTIONS
+template <typename T> std::ostream& operator<<(std::ostream& o, const sf::Vector2<T>& v) {
+	return o << "vec(" << v.x << ", " << v.y << ")";
+}
+
+auto vec2i_comparator = [](const sf::Vector2i& a, const sf::Vector2i& b) { return a.x * 10 + a.y < b.x * 10 + b.y; };
+
+struct cmpVec2i {
+	bool operator()(const sf::Vector2i& a, const sf::Vector2i& b) {
+		return a.x * 10 + a.y < b.x * 10 + b.y;
+	}
+};
+
 
 /// STRUCTS
 

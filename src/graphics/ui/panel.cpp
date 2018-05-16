@@ -71,20 +71,20 @@ void Panel::update() {
     }*/
 }
 
-void Panel::movein(Engine* app) {
+void Panel::move_in(Engine* app) {
 //	if (background_image) {
-//		app->addWidget(background_image->getName(), background_image);
+//		app->add_widget(background_image->getName(), background_image);
 //	}
 //    for (int i=0;i<items.size();i++) {
-//        if (items[i]) app->addWidget(items[i]->getName(),items[i]);
+//        if (items[i]) app->add_widget(items[i]->getName(),items[i]);
 //        else LOG("null item in panel<" << name << ">");
 //    }
 }
 
-void Panel::moveout(Engine* app) {
-//	if (background_image) app->removeWidget(background_image->getName());
+void Panel::move_out(Engine* app) {
+//	if (background_image) app->remove_widget(background_image->getName());
 //    for (int i=0;i<items.size();i++) {
-//        if (items[i]) app->removeWidget(items[i]->getName());
+//        if (items[i]) app->remove_widget(items[i]->getName());
 //        else LOG("null item in panel<" <<  name << ">");
 //    }
 }

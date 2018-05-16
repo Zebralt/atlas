@@ -55,10 +55,10 @@ public:
     Widget* getItem(std::string);
     
     // add all items to app
-    virtual void movein(Engine*);
+    virtual void move_in(Engine*);
     
     // remove all items from app
-    virtual void moveout(Engine*);
+    virtual void move_out(Engine*);
     
     void setLayout(Layout* l);
     

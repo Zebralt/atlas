@@ -9,11 +9,11 @@
 
 int random(int,int);
 
-class Picture : public Blob {
+class Sprite : public Blob {
 public:
-    Picture();
-    Picture(sf::Texture*);
-    Picture(std::string);
+    Sprite();
+    Sprite(sf::Texture*);
+    Sprite(std::string);
     
     bool setOwnTexture(std::string path);
 
@@ -25,6 +25,7 @@ public:
     void setSize(int w, int h);
     void setSize(const sf::Vector2i& v);
     
+    void setTexture(sf::Texture*);
     void setTexture(sf::Texture* t, sf::IntRect);
     void setTextureRect(sf::IntRect);
     
@@ -53,7 +54,7 @@ protected:
 
 //////////////////////////////////////////////////////////////
 
-class AnimatedPicture : public Picture, public TimeEnabled {
+class AnimatedPicture : public Sprite, public TimeEnabled {
 public:
     AnimatedPicture(int interval, int wait = 0);
     AnimatedPicture(std::string, int interval, int wait = 0);

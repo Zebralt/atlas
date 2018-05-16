@@ -6,14 +6,14 @@ PictureBox::PictureBox() : Widget() {
 }
 
 PictureBox::PictureBox(std::string s) : Widget() {
-	picture = new Picture(s);
+	picture = new Sprite(s);
 }
 
 PictureBox::PictureBox(sf::Texture* t) : Widget() {
-	picture = new Picture(t);
+	picture = new Sprite(t);
 }
 
-PictureBox::PictureBox(Picture* p) : Widget() {
+PictureBox::PictureBox(Sprite* p) : Widget() {
 	picture = p;
 	width = p->getSize().w;
 	height = p->getSize().h;

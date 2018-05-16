@@ -16,4 +16,19 @@ public:
     virtual void update() = 0;
 };
 
+template <typename T> void update_or_delete( std::vector<T*>& items) {
+	for (auto it = items.begin(); it != items.end();) {
+        if ((*it)->getStatus()) {
+            (*it)->update();
+        }
+        else {
+            delete *it;
+            it = items.erase(it);
+            continue;
+        }
+        
+        ++it;
+    }
+}
+
 #endif
