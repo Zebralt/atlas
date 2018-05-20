@@ -1,3 +1,14 @@
+#ifndef BUTTON_HPP_
+#define BUTTON_HPP_
+
+#include "label.hpp"
+
+class Button : public Label {
+    
+};
+
+#endif // BUTTON_HPP_
+
 /*#ifndef BUTTON_HPP_
 #define BUTTON_HPP_
 

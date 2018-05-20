@@ -24,7 +24,7 @@ void SnakeGame::reset() {
 void SnakeGame::generate_snake(const int& initial_len) {
 	auto initial_pos = sf::Vector2i(randint(0, width - 1), randint(0, height - 1));
 	snake.push_back(initial_pos);
-	for (int i=1; i<initial_len; i++) {
+	for (uint i=1; i<initial_len; i++) {
 		snake.push_back(sf::Vector2i(initial_pos.x, initial_pos.y + i));
 	}
 }
@@ -57,7 +57,7 @@ void SnakeGame::update() {
 		}
 		// update with current direction
 		// move snake
-//		for (int i=0; i<snake.size(); i++) {
+//		for (uint i=0; i<snake.size(); i++) {
 //			snake[i].x += (dir == RIGHT) - (dir == LEFT);
 //			snake[i].y += (dir == DOWN) - (dir == UP);
 //			if (snake[i].x < 0) { snake[i].x = width + snake[i].x;}
@@ -204,7 +204,7 @@ std::map<sf::Vector2i, int, cmpVec2i> get_snake_turns(const std::vector<sf::Vect
 	Direction adir;
 	Direction new_dir;
 	sf::Vector2i diff;
-	for (int i=0;i<snake.size();i++) {
+	for (uint i=0;i<snake.size();i++) {
 		if (!i) {
 			// head
 			// look next
@@ -301,7 +301,7 @@ void SnakeGameScene::handle_events(sf::Event& event) {
 }
 
 void SnakeGameScene::update() {
-	int now = timer.getTime().asMilliseconds();
+	int now = timer.time().asMilliseconds();
 	if (status == RUNNING && now - past > 1000) {
 		game.update();
 		auto details = game.get_snake_details();

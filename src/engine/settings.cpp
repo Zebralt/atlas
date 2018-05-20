@@ -1,3 +1,4 @@
+#include "../global.hpp"
 #include "settings.hpp"
 #include "../tools/strmanip.hpp"
 #include <iostream>
@@ -46,12 +47,12 @@ setting_variant Settings::get(const std::string& name) {
     
     if (elements.size()) {
 
-        for (int i=0; i<elements.size() - 1; i++) {
+        for (uint i=0; i<elements.size() - 1; i++) {
             node = node.child(elements[i].c_str());
 //            std::cout << node << std::endl;
         }
 
-		if (attr = node.attribute(elements[elements.size() - 1].c_str())) {
+		if ((attr = node.attribute(elements[elements.size() - 1].c_str()))) {
 //			if (type == "int") {
 //				return setting_variant(attr.as_int());
 //			}
@@ -66,4 +67,12 @@ setting_variant Settings::get(const std::string& name) {
     }
     
 	return attr;
+}
+
+
+int Settings::as_int(const std::string& name) {
+	return get(name).as_int();
+}
+std::string Settings::as_string(const std::string& name) {
+	return get(name).as_string();
 }

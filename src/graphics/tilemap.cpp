@@ -1,4 +1,4 @@
-#include "snake_tilemap.hpp"
+#include "tilemap.hpp"
 
 TileMap::TileMap(unsigned int w, unsigned int h, sf::Vector2i ts) {
 	
@@ -38,7 +38,7 @@ void TileMap::update(const std::map<sf::Vector2i, int, cmpVec2i>& tiles) {
 			
 			sf::Vertex* quad = &vertices[(i + j * width) * 4];
 			
-//			for (int i=0; i<20; i++) {
+//			for (uint i=0; i<20; i++) {
 //				tile_number = i;
 //				
 //				int tu = tile_number % (tex->getSize().x / tile_size.x);
@@ -88,7 +88,7 @@ void TileMap::clear_textures() {
 			
 			sf::Vertex* quad = &vertices[(i + j * width) * 4];
 			
-			for (int k=0; k<4; k++) {
+			for (uint k=0; k<4; k++) {
 				quad[k].texCoords = sf::Vector2f(0, 0);
 			}
 		}

@@ -145,7 +145,7 @@ void AnimatedPicture::setRefreshInterval(int interval) {
 void AnimatedPicture::update() {
 	Sprite::update();
 	if (status == RUNNING) {
-		int now = timer.getTime().asMilliseconds();
+		int now = timer.time().asMilliseconds();
 		if (now - past >= interval) {
 			iterators.x++;
 			iterators.z++;

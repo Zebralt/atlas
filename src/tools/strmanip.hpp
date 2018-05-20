@@ -19,4 +19,10 @@ std::string extract_substring(const std::string& str, const std::string& bounds)
 /// Parse a text file an return its lines.
 std::vector<std::string> parse_file(const std::string& filepath);
 
+/// Replace instances of 'occurence' by 'sub'
+std::string replace_all(const std::string& text, const std::string& occurence, const std::string& sub);
+
+/// Insert value at specific places in string
+std::string insert_args(const std::string& str, const std::vector<std::string>& args);
+
 #endif // STRMANIP_HPP_

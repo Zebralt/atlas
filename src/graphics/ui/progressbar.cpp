@@ -13,8 +13,8 @@ ProgressBar::ProgressBar() : Widget() {
 }
 
 void ProgressBar::goToValue(float t) {
-    ProgressBarAnimation* pba = new ProgressBarAnimation(this,t,30);
-    animate(pba,AnimationType::Value);
+//    ProgressBarAnimation* pba = new ProgressBarAnimation(this,t,30);
+//    animate(pba,AnimationType::Value);
 }
 
 void ProgressBar::setValue(float t) {
@@ -33,9 +33,9 @@ void ProgressBar::setColor(sf::Color c) {
     foreground.setFillColor(sf::Color(c.r,c.g,c.b,opacity));
 }
 
-bool ProgressBar::isAnimated() {
-    return animations.size();
-}
+//bool ProgressBar::animated() {
+//    return animations.size();
+//}
 
 void ProgressBar::setPosition(sf::Vector2f v) {
     position = origin + v;

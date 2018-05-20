@@ -289,16 +289,16 @@ PUGI__NS_BEGIN
 	class compact_hash_table
 	{
 	public:
-		compact_hash_table(): _items(0), _capacity(0), _count(0)
+		compact_hash_table(): items(0), _capacity(0), _count(0)
 		{
 		}
 
 		void clear()
 		{
-			if (_items)
+			if (items)
 			{
-				xml_memory::deallocate(_items);
-				_items = 0;
+				xml_memory::deallocate(items);
+				items = 0;
 				_capacity = 0;
 				_count = 0;
 			}
@@ -346,7 +346,7 @@ PUGI__NS_BEGIN
 			void* value;
 		};
 
-		item_t* _items;
+		item_t* items;
 		size_t _capacity;
 
 		size_t _count;
@@ -363,7 +363,7 @@ PUGI__NS_BEGIN
 
 			for (size_t probe = 0; probe <= hashmod; ++probe)
 			{
-				item_t& probe_item = _items[bucket];
+				item_t& probe_item = items[bucket];
 
 				if (probe_item.key == key || probe_item.key == 0)
 					return &probe_item;
@@ -399,22 +399,22 @@ PUGI__NS_BEGIN
 
 		compact_hash_table rt;
 		rt._capacity = capacity;
-		rt._items = static_cast<item_t*>(xml_memory::allocate(sizeof(item_t) * capacity));
+		rt.items = static_cast<item_t*>(xml_memory::allocate(sizeof(item_t) * capacity));
 
-		if (!rt._items)
+		if (!rt.items)
 			return false;
 
-		memset(rt._items, 0, sizeof(item_t) * capacity);
+		memset(rt.items, 0, sizeof(item_t) * capacity);
 
 		for (size_t i = 0; i < _capacity; ++i)
-			if (_items[i].key)
-				rt.insert(_items[i].key, _items[i].value);
+			if (items[i].key)
+				rt.insert(items[i].key, items[i].value);
 
-		if (_items)
-			xml_memory::deallocate(_items);
+		if (items)
+			xml_memory::deallocate(items);
 
 		_capacity = capacity;
-		_items = rt._items;
+		items = rt.items;
 
 		assert(_count == rt._count);
 

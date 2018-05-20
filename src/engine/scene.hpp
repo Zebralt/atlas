@@ -20,24 +20,48 @@ class Engine;
 
 // http://cocos2d-x.org/docs/cocos2d-x/en/basic_concepts/scene.html
 // http://cocos2d-x.org/docs/cocos2d-x/en/basic_concepts/sprites.html
+
+/**
+	\author Zebralt
+	\brief This class is a key component of the engine. It allows you to make things
+	happen within the engine, calling upon its features, such as creating sprites,
+	playing sounds and musics, etc. This is where you will program what you actually
+	want to see, such as a game, or a cutscene animated within the engine, etc.
+	The engine holds only one scene at any moment. It will pass on events to the 
+	current scene (handle_events) so you can handle the events and decide what to
+	do with them. The scene will store all sprites you create.
+*/
 class Scene : public Temporary, public sf::Drawable {
 public:
 	Scene();
 	
 //	virtual void in() {}
-	virtual void initialize() {}
+
+	/// \brief This is an abstract method that will be the first called upon
+	/// when playing a scene. You can create all your variables and other things
+	/// you need to do once, in the beginning.
+	virtual void initialize() = 0;
 //	virtual void run() {}
-	virtual void terminate() {}
-	virtual void update() {}
+
+	/// \brief This is an abstract method that will be called last when playing 
+	/// a scene. This is where you can clean up things, if you don't already do
+	/// it in the destructor.
+	virtual void terminate() = 0;
+	
+	/// \brief This method is common to all temporary objects. It will be called
+	/// upon at every iteration of the main loop.
+	virtual void update();
 //	virtual void out() {}
 	
-	virtual void handle_events(sf::Event& event) {}
+	/// \brief This method will be called to trickle down events from the engine.
+	/// You can redefine it to decide what to do with the events the engine receives
+	// (mouse clicks, keys pressed, etc.)
+	virtual void handle_events(sf::Event& event) = 0;
 	
 	virtual ~Scene();	
 	
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates rss) const {
 		for (auto sprite : sprites) {
-//			sprite->draw(target, rss);
 			target.draw(*sprite, rss);
 		}
 	}
@@ -46,6 +70,10 @@ protected:
 	std::vector<Blob*> sprites;
 };
 
+/**
+	\author Zebralt
+	\brief A sequence of Scenes. Once one is over, it will go over to the next.
+*/
 class SceneSequence : public Scene, public Container<Scene*> {
 public:
 	SceneSequence();
@@ -57,13 +85,19 @@ public:
 	
 private:
 	std::vector<Scene*> scenes;
-	int index = 0;
+	uint index = 0;
 };
 
 #include "time/timer.hpp"
 
 class Label;
 
+/**
+	\author Zebralt
+	\brief If no scene is loaded before starting the engine, this will be the
+	default scene. Closes after X seconds. Demonstrates sprite loading and 
+	animations.
+*/
 class EngineLogoScene : public Scene, public TimeEnabled {
 public:
 	EngineLogoScene();
@@ -72,8 +106,10 @@ public:
 	void terminate();
 	void update();
 	
+	void handle_events(sf::Event&) {}
+	
 private:
-	int count = 5;
+	int count = 20;
 	Label* label = nullptr;
 	
 };

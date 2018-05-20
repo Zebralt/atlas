@@ -10,7 +10,7 @@ Panel::Panel() : Widget() {
 void Panel::setPosition(sf::Vector2f v) {
     position = origin+v;
     background.setPosition(position);
-    for (int i=0;i<items.size();i++) {
+    for (uint i=0;i<items.size();i++) {
         if (items[i]) items[i]->setOrigin(position);
     }
     if (layout) layout->layoutTarget();
@@ -21,7 +21,7 @@ void Panel::setOrigin(sf::Vector2f v) {
 //    background.setPosition(position);
 //    origin = v;
 	Widget::setOrigin(v);
-    for (int i=0;i<items.size();i++) {
+    for (uint i=0;i<items.size();i++) {
         items[i]->setOrigin(position);
     }
     if (layout) layout->layoutTarget();
@@ -34,7 +34,7 @@ void Panel::add(Widget* w) {
 }
 
 Widget* Panel::getItem(std::string name) {
-    for (int i=0;i<items.size();i++) {
+    for (uint i=0;i<items.size();i++) {
         if (items[i] && items[i]->getName() == name) {
             return items[i];
         }
@@ -45,7 +45,7 @@ Widget* Panel::getItem(std::string name) {
 void Panel::setOpacity(int r) {
     Widget::setOpacity(r);
 //    LOG("panel::setopacity(" << r << ")");
-    for (int i=0;i<items.size();i++) {
+    for (uint i=0;i<items.size();i++) {
         items[i]->setOpacity(opacity);
     }
 }
@@ -58,14 +58,14 @@ void Panel::setSize(int w, int h) {
 void Panel::setStatus(short s) {
     Widget::setStatus(s);
     if (s == TERMINATED)
-    for (int i=0;i<items.size();i++) {
+    for (uint i=0;i<items.size();i++) {
         items[i]->setStatus(IDLE);
     }
 }
 
 void Panel::update() {
     Widget::update();
-    /*for (int i=0;i<items.size();i++) {
+    /*for (uint i=0;i<items.size();i++) {
         if (items[i]) items[i]->update();
         else LOG("null item in panel<" << name << ">");
     }*/
@@ -75,7 +75,7 @@ void Panel::move_in(Engine* app) {
 //	if (background_image) {
 //		app->add_widget(background_image->getName(), background_image);
 //	}
-//    for (int i=0;i<items.size();i++) {
+//    for (uint i=0;i<items.size();i++) {
 //        if (items[i]) app->add_widget(items[i]->getName(),items[i]);
 //        else LOG("null item in panel<" << name << ">");
 //    }
@@ -83,7 +83,7 @@ void Panel::move_in(Engine* app) {
 
 void Panel::move_out(Engine* app) {
 //	if (background_image) app->remove_widget(background_image->getName());
-//    for (int i=0;i<items.size();i++) {
+//    for (uint i=0;i<items.size();i++) {
 //        if (items[i]) app->remove_widget(items[i]->getName());
 //        else LOG("null item in panel<" <<  name << ">");
 //    }
@@ -101,9 +101,9 @@ void Panel::setLayout(Layout* l) {
 /////////////////////////////////////////////////////////////////////////////////
 
 void ColumnLayout::layoutTarget() {
-    int tmp_size = target->items.size();
-    for (int i=0;i<tmp_size;i++) {
-        Widget* w = target->items[i];
+    uint tmp_size = target->size();
+    for (uint i=0;i<tmp_size; i++) {
+        Widget* w = (*target)[i];
         if (w) {
             if (margin) {
                 float true_global_height = target->getSize().h - margin * (tmp_size + 1);
@@ -132,11 +132,11 @@ void ColumnLayout::layoutTarget() {
 //elem:pos  = margin,			margin + i*elems:size:h + margin*(i-1)	
 
 void GridLayout::layoutTarget() {
-    int row_it = 0;
-    int col_it = 0;
-    int tmp_size = target->items.size();
-    for (int i=0;i<tmp_size;i++) {
-        Widget* w = target->items[i];
+    uint row_it = 0;
+    uint col_it = 0;
+    uint tmp_size = target->size();
+    for (uint i=0;i<tmp_size;i++) {
+        Widget* w = (*target)[i];
         if (w) {
             /*if (margin) {
                 float true_global_height = target->getSize().h - margin * (tmp_size + 1);

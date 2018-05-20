@@ -7,7 +7,7 @@
 #include "../../global.hpp"
 #include "../../engine/time/timer.hpp"
 #include "../../engine/scene.hpp"
-#include "snake_tilemap.hpp"
+#include "../../graphics/tilemap.hpp"
 
 class Sprite;
 

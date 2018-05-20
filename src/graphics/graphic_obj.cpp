@@ -13,38 +13,37 @@ Blob::Blob() : Drawable(), Temporary(), Object() {
     //gui.addWidget(*this);
 }
 
-void Blob::animate(Animation* a, AnimationType type) {
-    if (animations.find(type) != animations.end()) {
-        delete(animations[type]);
-        //animations.erase(type);
+void Blob::runAnimation(Action* a) {
+    if (a) {
+        if (a->type() != None) {
+            if (typed_animations.find(a->type()) != typed_animations.end()) {
+                _FREE(typed_animations[a->type()]);
+            }
+            typed_animations[a->type()] = a;
+        }
+        else {
+            generic_animations.push_back(a);
+        }
+        a->set_target(this);
     }
-    animations[type] = a;
 }
 
 void Blob::update() {
-    for (std::map<AnimationType, Animation*>::const_iterator it = animations.begin(); it != animations.end(); ++it) {
-        it->second->update();
-        if (it->second->getStatus() == TERMINATED) {
-            delete(it->second);
-            it = animations.erase(it); 
-//            std::cout << "animation ended : now " << animations.size() << std::endl;
-            if (!animations.size()) break;
-            it--;
-        }
-        else {
-            //LOG("animation ongoing");
-        }
+    
+    if (status == RUNNING) {
+        update_or_delete(typed_animations);
+        update_or_delete(generic_animations);
     }
     
 }
 
-bool Blob::isDead() {
+bool Blob::terminated() {
 //    if (!status && animations.size()) LOG("booyah ! widget is dead but still animated");
-    return status == TERMINATED && !animations.size();
+    return status == TERMINATED && !animated();
 }
 
-bool Blob::isAnimated() {
-    return animations.size();
+bool Blob::animated() {
+    return generic_animations.size() || typed_animations.size();
 }
 
 /*

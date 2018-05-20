@@ -26,5 +26,5 @@ void Widget::onMouseLeave() {
 }
 
 int Widget::hashcode() { 
-	return MouseReceptiveSurface::hashcode() | Blob::hashcode(); 
+	return MouseReceptiveSurface::hashcode();// | Blob::hashcode(); 
 	}

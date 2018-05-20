@@ -15,10 +15,14 @@
 #define println(x) PRINT(x) << std::endl
 #define LOG(x) PRINTLN(x)
 
+#define _FREE(a) if (a) delete a
+
 /// TYPENAMES
 
 typedef unsigned int uint;
 typedef sf::IntRect Rect;
+typedef sf::Vector2f Vec2f;
+typedef sf::Vector2i Vec2;
 
 template <typename T> class ptr_vector : public std::vector<T*> {};
 
@@ -27,7 +31,7 @@ template <typename T> std::ostream& operator<<(std::ostream& o, const sf::Vector
 	return o << "vec(" << v.x << ", " << v.y << ")";
 }
 
-auto vec2i_comparator = [](const sf::Vector2i& a, const sf::Vector2i& b) { return a.x * 10 + a.y < b.x * 10 + b.y; };
+//auto vec2i_comparator = [](const sf::Vector2i& a, const sf::Vector2i& b) { return a.x * 10 + a.y < b.x * 10 + b.y; };
 
 struct cmpVec2i {
 	bool operator()(const sf::Vector2i& a, const sf::Vector2i& b) {

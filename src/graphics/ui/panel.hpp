@@ -85,7 +85,7 @@ protected:
 //        states.transform *= getTransform();
 //        tar.draw(background,states);
 ////        if (drawElements) {
-////        for (int i=0;i<items.size();i++) {
+////        for (uint i=0;i<items.size();i++) {
 ////            tar.d   raw(*items[i],states);
 ////        }
 ////        }

@@ -8,7 +8,8 @@ Label::Label(sf::Font* ft) : Widget() {
     textFont = ft;
     label.setFont(*textFont);
     label.setColor(sf::Color::Yellow);
-    align = TextAlign::Center;
+    
+    computeTextSize();
     alignText();
 }
 
@@ -16,7 +17,8 @@ Label::Label() : Widget() {
     name += "_label";
     label.setCharacterSize(20);
     label.setColor(sf::Color::Yellow);
-    align = TextAlign::Center;
+    
+    computeTextSize();
     alignText();
 }
 
@@ -28,7 +30,8 @@ Label::Label(std::string text, sf::Font* ft) : Widget() {
     textFont = ft;
     label.setFont(*textFont);
     label.setColor(sf::Color::Yellow);
-    align = TextAlign::Center;
+    
+    computeTextSize();
     alignText();
 }
 
@@ -50,6 +53,7 @@ void Label::setOrigin(sf::Vector2f v) {
 
 void Label::setText(std::string s) {
     label.setString(s);
+    computeTextSize();
     alignText();
 }
 
@@ -59,6 +63,7 @@ void Label::setTextColor(sf::Color c) {
 
 void Label::setTextSize(int s) {
     label.setCharacterSize(s);
+    computeTextSize();
     alignText();
 }
 
@@ -91,23 +96,23 @@ void Label::alignText() {
     label.setPosition(tmp);
 }
 
+void Label::computeTextSize() {
+    setSize(label.getLocalBounds().width, label.getLocalBounds().height);
+}
+
 void Label::onMouseEnter() {
     Widget::onMouseEnter();
-    setBorder(1,sf::Color::Yellow);
+//    setBorder(1,sf::Color::Yellow);
 }
 
 void Label::onMouseLeave() {
     Widget::onMouseLeave();
-    setBorder(0,sf::Color::Yellow);
+//    setBorder(0,sf::Color::Yellow);
 }
 
 void Label::setOpacity(int r) {
     Widget::setOpacity(r);
     label.setColor(sf::Color(label.getColor().r,label.getColor().g,label.getColor().b,opacity));
-}
-
-bool Label::isAnimated() {
-    return animations.size();
 }
 
 sf::Text& Label::getText() {

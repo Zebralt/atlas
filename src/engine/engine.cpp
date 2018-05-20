@@ -14,11 +14,15 @@
 /// 
 
 Engine* Engine::singleton = nullptr;
+int Engine::update_interval = 17;
+Vec2 Engine::mouse_position = Vec2();
 
 
 Engine::Engine() {
     
 }
+
+/// STATIC METHODS
 
 bool Engine::load(RESOURCE_TYPE type, const std::string& name, const std::string& filepath) {
     return get().load_resource(name, type, filepath);
@@ -80,8 +84,30 @@ Sprite* Engine::create_sprite(const std::string& filepath, const Rect& rect, con
     else 
         return nullptr;
 }
+
+void Engine::register_widget(const std::string& name, Widget* widget) {
+    if (widget) {
+        get().add_widget(name, widget);
+    }
+}
+
+void Engine::register_widget(Widget* widget) {
+    if (widget) {
+        get().add_widget(widget);
+    }
+}
+
+void Engine::register_blob(Blob* blob) {
+    if (blob) {
+        get().add_blob(blob);
+    }
+}
+
+Widget* Engine::get_widget(const std::string& name) {
+    return get()._get_widget(name);
+}
 	
-///
+/// NON-STATIC METHODS
 
 bool Engine::init_engine() {
     /// 1. load settings from XML files
@@ -90,7 +116,7 @@ bool Engine::init_engine() {
     
     sf::ContextSettings context_settings;
 	context_settings.antialiasingLevel = 8;
-	window = new sf::RenderWindow(sf::VideoMode(settings.get("video/resolution/width").as_int(), settings.get("video/resolution/height").as_int()), "test sfml app",sf::Style::Close,context_settings);
+	window = new sf::RenderWindow(sf::VideoMode(settings.as_int("video/resolution/width"), settings.as_int("video/resolution/height")), "test sfml app",sf::Style::Close,context_settings);
 //    keyregister.init();
     if (!load_global_font("resources/fonts/Roboto-Medium.ttf")) {
         return false;
@@ -148,15 +174,20 @@ void Engine::update_screen() {
 void Engine::handle_events() {
     sf::Event event;
     while (window->pollEvent(event)) {
+        
         if (event.type == sf::Event::Closed || !current_scene) {
             status = 0;
             window->close();
             return;
         }
 
+        mouse_position = sf::Mouse::getPosition(*window);
+        
         handle_keyboard_events(event);
         
-        handle_mouse_events(event);
+        handle_mousemove_events(event);
+        handle_mouseover_events(event);
+        handle_mouseclick_events(event);
         
         current_scene->handle_events(event);
     }
@@ -167,20 +198,55 @@ void Engine::handle_keyboard_events(sf::Event& event) {
         handle_mouseclick_events(event);
     }
     else if (event.type == sf::Event::MouseMoved) {
-        handle_mouseover_events(event);
+        handle_mousemove_events(event);
     }
 }
 
-void Engine::handle_mouse_events(sf::Event& event) {
-
+void Engine::handle_mousemove_events(sf::Event& event) {
+    
 }
 
 void Engine::handle_mouseover_events(sf::Event& event) {
-
+    
+    for (auto& widget : widgets) {
+        if (!widget) continue;
+        
+        bool mouseover = widget->getRect().contains(Engine::get_mouse_position());
+        
+        if (!widget->getHover() && mouseover) {
+            widget->setHover(true);
+            widget->onMouseEnter();
+        }
+        else if (widget->getHover() && !mouseover) {
+            widget->setHover(false);
+            widget->onMouseLeave();
+        }
+    }
+    
 }
 
 void Engine::handle_mouseclick_events(sf::Event& event) {
+//    for (auto& widget : widgets) {
+//        if (!widget) continue;
+//        
+//        if (widget->getHover()) {
+//            widget->onClick();
+//        }
+//    }
 
+// Going backward and breaking at top most widget receiving the click
+
+    for (auto it = widgets.end(); it != widgets.begin(); --it) {
+        auto widget = *it;
+        
+        if (!widget) continue;
+        
+        // assuming mouseovers have been computed beforehand
+        if (widget->getHover()) {
+            widget->onClick();
+            break;
+        }
+    }
 }
 
 /// RESSOURCES MANAGEMENT //////////////////////////////////////////////////////////////////////////////////
@@ -369,82 +435,89 @@ bool Engine::free_resources() {
 /// MANAGING GRAPHICAL OBJECTS
 
 
-//void Engine::add_blob(Blob* b) {
-//    blobs.push_back(b);
-//}
+void Engine::add_blob(Blob* b) {
+    blobs.push_back(b);
+}
 //
 //void Engine::add_blob(EngineViewport v, Blob* b) {
 ////	view_blobs.insert(std::pair<AppView, std::vector<Blob*>>(v,std::vector<Blob*>()));
 //	view_blobs[v].push_back(b);
 //}
 //
-//
-//std::vector<Widget*>::iterator Engine::find_widget(std::string name) {
-//    for (std::vector<Widget*>::iterator it = widgets.begin(); it != widgets.end(); ++it) {
-//        if ((*it)->getName() == name) {
-//            return it;
-//        }
-//    }
-//    return widgets.end();
-//}
-//
-//std::vector<Widget*>::iterator Engine::find_widget(Widget* w) {
-//    for (std::vector<Widget*>::iterator it = widgets.begin(); it != widgets.end(); ++it) {
-//        if ((*it) == w) {
-//            return it;
-//        }
-//    }
-//    return widgets.end();
-//}
-//
-//Widget* Engine::get_widget(std::string name) {
-//    for (std::vector<Widget*>::iterator it = widgets.begin(); it != widgets.end(); ++it) {
-//        if ((*it)->getName() == name) {
-//            return *it;
-//        }
-//    }
-//    return nullptr;
-//}
-//
-//std::string alterName(std::string name) {
-//    if (name[name.length()-1] >= '0' && name[name.length()-1] <= '9') {
-//        if (name[name.length()-1] == '9') {
-//            return name+"0";
-//        }
-//        else {
-//            name[name.length()-1]++;
-//            return name;
-//        }
-//    }
-//    else {
-//        return name+"0";
-//    }
-//}
-//
-//void Engine::add_widget(std::string name, Widget* w) {
-////    LOG("added widget<"  << name << ">");
-//    w->setName(name);
-//    /*if (Widget* aw = containsWidget(name)) {
-//        std::vector<Widget*>::iterator it = findWidget(aw);
-//        if (it != widgets.end())
-//            widgets.erase(it);
-//        delete(aw);
-//    }*/
-//    while(Widget* aw = get_widget(name)) {
-//        name = alterName(name);
-//        w->setName(name);
-//    }
-//    widgets.push_back(w);
-//    if (w->hashcode() & CONTAINER) {
-////        LOG(w->getName() << " is a container:size = " << ((Panel*)w)->getItems().size());
-//        ((Panel*)w)->move_in(this);
-//        //Panel* cont = (Panel*) w;
-//        //for (int i=0; i<cont->items.size(); i++) {
-//        //    addWidget(cont->items[i]->getName(), cont->items[i]);
-//        //    
-//        //}*/
-//    }
-//}
+
+std::vector<Widget*>::iterator Engine::find_widget(const std::string& name) {
+    for (std::vector<Widget*>::iterator it = widgets.begin(); it != widgets.end(); ++it) {
+        if ((*it)->getName() == name) {
+            return it;
+        }
+    }
+    return widgets.end();
+}
+
+std::vector<Widget*>::iterator Engine::find_widget(Widget* w) {
+    for (std::vector<Widget*>::iterator it = widgets.begin(); it != widgets.end(); ++it) {
+        if ((*it) == w) {
+            return it;
+        }
+    }
+    return widgets.end();
+}
+
+Widget* Engine::_get_widget(const std::string& name) {
+    for (std::vector<Widget*>::iterator it = widgets.begin(); it != widgets.end(); ++it) {
+        if ((*it)->getName() == name) {
+            return *it;
+        }
+    }
+    return nullptr;
+}
+
+std::string alterName(const std::string& name) {
+    std::string result = name;
+    if (result[result.length()-1] >= '0' && result[result.length()-1] <= '9') {
+        if (result[result.length()-1] == '9') {
+            return result+"0";
+        }
+        else {
+            result[result.length()-1]++;
+            return result;
+        }
+    }
+    else {
+        return result+"0";
+    }
+}
+
+void Engine::add_widget(const std::string& name, Widget* w) {
+//    LOG("added widget<"  << name << ">");
+    w->setName(name);
+    /*if (Widget* aw = containsWidget(name)) {
+        std::vector<Widget*>::iterator it = findWidget(aw);
+        if (it != widgets.end())
+            widgets.erase(it);
+        delete(aw);
+    }*/
+    std::string alt_name = name;
+    while(Widget* aw = _get_widget(alt_name)) {
+        alt_name = alterName(alt_name);
+        w->setName(alt_name);
+    }
+    widgets.push_back(w);
+    if (w->hashcode() & CONTAINER) {
+//        LOG(w->getName() << " is a container:size = " << ((Panel*)w)->getItems().size());
+        ((Panel*)w)->move_in(this);
+        //Panel* cont = (Panel*) w;
+        //for (uint i=0; i<cont->items.size(); i++) {
+        //    addWidget(cont->items[i]->getName(), cont->items[i]);
+        //    
+        //}*/
+    }
+}
+
+void Engine::add_widget(Widget* w) {
+    if (w) add_widget(w->getName(), w);
+}
+
 //
 //void Engine::remove_widget(std::string name) {
 ////    display(widgets);
@@ -455,7 +528,7 @@ bool Engine::free_resources() {
 //        if (wc->hashcode() & CONTAINER) {
 //            ((Panel*)wc)->move_out(this);
 //           /* std::vector<Widget*> items = ((Panel*) wc)->getItems();
-//            for (int i=0; i<items.size(); i++) {
+//            for (uint i=0; i<items.size(); i++) {
 //                removeWidget(items[i]->getName());
 //            }*/
 //        }

@@ -6,10 +6,11 @@
 #include "../global.hpp"
 
 /**
-This is the base class for anything that needs to be drawn on screen.
-It has a background rectangle by default.
-You can draw a border by using setBorder. This does not increase the 
-size of the object ; the border is drawn inward.
+    \author Zebralt
+    \brief This is the base class for anything that needs to be drawn on screen.
+    It has a background rectangle by default.
+    You can draw a border by using setBorder. This does not increase the 
+    size of the object ; the border is drawn inward.
 */
 class Drawable : public sf::Drawable {
 protected:
@@ -28,10 +29,10 @@ public:
         background.setFillColor(sf::Color::Transparent);
     }
 
-    /// Set to different position.
+    /// \brief Set to different position.
     virtual void setPosition(sf::Vector2f);
     
-    /// Add vector to current position.
+    /// \brief Add vector to current position.
     virtual void move(sf::Vector2f);
     
     virtual void setOrigin(sf::Vector2f);
@@ -47,7 +48,7 @@ public:
     virtual void setBackgroundColor(sf::Color);
     void setBorder(int,sf::Color);
 
-    /// This is the key method of this class. All child classes
+    /// \brief This is the key method of this class. All child classes
     /// may want to redefine it and to make it virtual.
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 

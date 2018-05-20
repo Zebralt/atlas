@@ -3,11 +3,15 @@
 
 #include "mouseover.hpp"
 
+/**
+    \author Zebralt
+    \brief This class is the basis for all widgets.
+*/
 class Widget : public MouseReceptiveSurface {
 protected:
     std::string name;
-public:
     static int id;
+public:
     
     Widget();
     Widget(const std::string& n);

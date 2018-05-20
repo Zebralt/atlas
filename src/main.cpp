@@ -4,12 +4,16 @@
 #include "game/snake_game/snake_game.hpp"
 #include <windows.h>
 
+#include "../test/test.hpp"
+
 int test_SFML();
 
 int main() {
+    run_tests();
     Engine::init();
 //    Engine::load_scene(new SnakeGameScene(10,10));
     Engine::run();
+    
     return Engine::get_status();
 }
 
@@ -49,4 +53,6 @@ int test_SFML() {
         window.draw(shape);
         window.display();
     }
+    
+    return 0;
 }

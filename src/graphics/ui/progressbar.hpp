@@ -10,7 +10,7 @@ public:
     void goToValue(float t);
     void setSize(int w, int h);
     void setColor(sf::Color c);
-    bool isAnimated();
+    bool animated();
     void setPosition(sf::Vector2f v);
     void setOrigin(sf::Vector2f v);
     void onMouseOverIn();

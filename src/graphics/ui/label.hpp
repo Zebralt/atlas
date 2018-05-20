@@ -38,12 +38,13 @@ public:
     virtual void onMouseEnter();
     virtual void onMouseLeave();
 
-    bool isAnimated();
+    bool animated();
 protected:
     sf::Text label;
     sf::Font* textFont;
-    TextAlign align;
+    TextAlign align = Left;
     void alignText();
+    void computeTextSize();
 
     virtual void draw(sf::RenderTarget& tar, sf::RenderStates states) const {
 //        states.transform *= getTransform();
