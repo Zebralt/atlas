@@ -44,10 +44,6 @@ Direction SnakeGame::get_direction() {
 	return dir;
 }
 
-std::map<sf::Vector2i, std::pair<Direction, Direction>> SnakeGame::get_turn_stack() {
-	return turn_stack;
-}
-
 void SnakeGame::update() {
 	if (status) {
 		// check for snake overlap
@@ -262,7 +258,7 @@ SnakeGameScene::SnakeGameScene(const int& w = 40, const int& h = 40) : Scene() {
 void SnakeGameScene::initialize() {
 	// load resources
 	Engine::load(TEXTURE, "snake_spritesheet", "resources/textures/snake_graphics/snake-graphics.png");
-	tmap.set_texture(Engine::get().get_texture("snake_spritesheet"));
+	tmap.set_texture(Engine::get_texture("snake_spritesheet"));
 	Engine::load(SOUND, "snake_eating", "resources/sfx/munch.ogg");
 	
 	// load spritesheet settings
@@ -319,14 +315,6 @@ void SnakeGameScene::update() {
 }
 
 void SnakeGameScene::draw(sf::RenderTarget& target, sf::RenderStates stt) const {
-	// call base class::draw
-	// draw background
-	// draw head
-	// rotate head
-	// draw tail
-	// rotate tail
-	// draw rest of the body
-	
 	// draw tmap
 	target.draw(tmap, stt);
 }
@@ -336,87 +324,3 @@ void SnakeGameScene::terminate() {
 		if (ptr) delete ptr;
 	}
 }
-
-/*
-class SnakeGameApplication(minapp.MiniApplication):
-    def __init__(self, settings, w=40, h=40):
-        self.w = w
-        self.h = h
-        super().__init__(settings)
-    
-    def init(self):
-
-        self.snake_game = asnake.SnakeGame(self.w, self.h)        
-        self.rect_size = min(self.settings.window_rect)/min(self.snake_game.grid.width, self.snake_game.grid.height)
-        self.rect_size = int(self.rect_size/3)
-        self.margin = 1
-        self.main_grid_pos = (int(min(self.settings.window_rect)/3), int(min(self.settings.window_rect)/3))
-        
-        
-        
-    def close(self):
-        print("What, you're leaving already ? how sad.")
-        
-    def update(self):
-        # do something
-        self.bg_rect = (self.main_grid_pos, ((self.rect_size + self.margin) * self.snake_game.grid.width, (self.rect_size + self.margin) * self.snake_game.grid.height))
-        pygame.draw.rect(self.window, (40, 20, 30), scale_rect(self.bg_rect, 1.25))
-        pygame.draw.rect(self.window, (20, 20, 30), self.bg_rect)
-        self.grid = self.snake_game.run()
-        
-    def draw(self):
-        # do smth
-        if self.grid:
-            for i in range(self.grid.width):
-                for j in range(self.grid.height):
-                    rect = ((self.main_grid_pos[0] + (self.rect_size + self.margin) * i, self.main_grid_pos[1] + (self.rect_size + self.margin) * j ),(self.rect_size, self.rect_size))
-                    if (i, j) == self.snake_game.food:      
-                        pygame.draw.rect(self.window, Color.orange, scale_rect(rect, 2))
-                    elif (i ,j) == self.snake_game.snake[0]:      
-                        pygame.draw.rect(self.window, Color.yellow,  scale_rect(rect, 1.5))
-                    elif self.grid.get(i, j):
-                        pygame.draw.rect(self.window, Color.white, rect)
-                    elif self.snake_game.path and (i, j) in self.snake_game.path:                        
-                        pygame.draw.rect(self.window, (100, 100, 100),  scale_rect(rect, 0.5))
-        
-    def handle_event(self, events):
-        for event in events:
-            if event.type == QUIT:
-                self.state = 0
-            if event.type == MOUSEBUTTONDOWN:
-                if event.button == MouseButton.left:
-                    self.snake_game.reset()
-                    self.settings.mousepos = event.pos
-            if event.type == MOUSEBUTTONUP:
-                if event.button == MouseButton.right:
-                    pass
-            if event.type == MOUSEMOTION:
-                self.settings.mousepos = event.pos
-    
-*/
-
-//std::vector<Direction> figure_turns(const std::vector<sf::Vector2i>& poss) {
-//	std::vector<Direction> directions;
-//	Direction last_dir = UP;
-//	const sf::Vector2i* current_dir = nullptr;
-//
-//	for (auto& pos : poss) {
-//		if (current_dir) {
-//			if (directions.size()) {
-//				
-//			}
-//			else {
-//				int dx = current_dir->x - pos.x;
-//				int dy = current_dir->y - pos.y;
-//				Direction new_dir = dx ? (dx > 0 ? LEFT : RIGHT) : (dy ? (dy > 0 ? UP : DOWN) : DOWN);
-//				if (new_dir != last_dir) {
-////					directions.push_back()
-//				}
-//				last_dir = new_dir;
-//			}
-//		}
-//		current_dir = &pos;
-//	}
-//
-//	return directions;
-//}

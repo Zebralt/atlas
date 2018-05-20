@@ -9,6 +9,7 @@
 int test_SFML();
 
 int main() {
+    
     run_tests();
     Engine::init();
 //    Engine::load_scene(new SnakeGameScene(10,10));

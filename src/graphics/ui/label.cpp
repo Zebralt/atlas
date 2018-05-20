@@ -100,16 +100,6 @@ void Label::computeTextSize() {
     setSize(label.getLocalBounds().width, label.getLocalBounds().height);
 }
 
-void Label::onMouseEnter() {
-    Widget::onMouseEnter();
-//    setBorder(1,sf::Color::Yellow);
-}
-
-void Label::onMouseLeave() {
-    Widget::onMouseLeave();
-//    setBorder(0,sf::Color::Yellow);
-}
-
 void Label::setOpacity(int r) {
     Widget::setOpacity(r);
     label.setColor(sf::Color(label.getColor().r,label.getColor().g,label.getColor().b,opacity));

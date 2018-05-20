@@ -68,6 +68,10 @@ void Drawable::adjustBackground() {
     background.setSize(sf::Vector2f(width,height));
 }
 
+void Drawable::setPadding(int i) {
+    padding = i;
+}
+
 //void Drawable::fitBackground(float factor) {
 //
 //}

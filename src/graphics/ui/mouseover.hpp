@@ -3,11 +3,16 @@
 
 #include "../graphic_obj.hpp"
 
+#include <functional>
+
 /**
     \author Zebralt
     \brief This class is the one you want to inherit from
     if you want your sprite or anything visual to be able to
     receive events from the mouses, such as clicking and hovering.
+    On second thought, I have updated them to lambda functions,
+    so that you can define on the fly. That's pretty handy. dunnow
+    about efficiency though.
 
 */
 class MouseReceptiveSurface : public Blob {
@@ -25,29 +30,38 @@ public:
     
     /// \brief Method inherited from the Object interface. Allows to
     /// quickly determine if an object is eligible to mouse events.
-    virtual int hashcode() { return ON_HOVER | ON_CLICK; }
+    virtual int hash_code() { return ON_HOVER | ON_CLICK; }
     
     /// \brief This method will be called upon having the mouse enter
     /// the boundaries of the object. The point for you is to redefine
     /// it so that you can have what you want happen when the mouse 
     /// enters the object's boundaries (such as changing background color,
     /// for example).
-    virtual void onMouseEnter() {}
+    void onMouseEnter() { on_mouse_enter_action(); }
+    void setMouseEnterAction(const std::function<void(void)>& f) {
+        on_mouse_enter_action = f;
+    }
     
     /// \brief This method will be called upon having the mouse leave
     /// the boundaries of the object.
-    virtual void onMouseLeave() {}
-    
+    void onMouseLeave() { on_mouse_leave_action(); }
+    void setMouseLeaveAction(const std::function<void(void)>& f) {
+        on_mouse_leave_action = f;
+    }
     /// \brief Not sure, but I think this will be called upon everytime
     /// the mouse moves inside of the object's boundaries, having entered
     /// it previously.
-    virtual void onMouseMove(sf::Vector2i pos) {}
-    
+    void onMouseMove(const Vec2& pos) { on_mouse_move_action(pos); }
+    void setMouseMoveAction(const std::function<void(const Vec2&)>& f) {
+        on_mouse_move_action = f;
+    }
     /// \brief This method will be called upon havint the user click
     /// on the object. It should be nice to be able to know which button
     /// was used.
-    virtual void onClick() {}
-    
+    void onClick() { on_mouse_click_action(); }
+    void setMouseClickAction(const std::function<void(void)>& f) {
+        on_mouse_click_action = f;
+    }
     /// \brief TODO
     sf::View* getTargetView() { return targetView; }
     
@@ -78,6 +92,14 @@ public:
 private:
     bool hovering = false;
     sf::View* targetView = nullptr;
+    std::function<void(void)> on_mouse_enter_action = [this](){
+        setBackgroundColor(sf::Color::Blue);
+    };
+    std::function<void(void)> on_mouse_leave_action = [this](){
+        setBackgroundColor(sf::Color::Green);
+    };
+    std::function<void(void)> on_mouse_click_action = [](){};
+    std::function<void(const Vec2&)> on_mouse_move_action = [](const Vec2&){};
 };
 
 #endif // mouseover_hpp__

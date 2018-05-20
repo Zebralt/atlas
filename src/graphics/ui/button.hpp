@@ -3,8 +3,15 @@
 
 #include "label.hpp"
 
+#include <functional> 
+
 class Button : public Label {
+public:
+    Button();
+    Button(sf::Font*);
+    Button(const std::string& text, sf::Font*);
     
+    virtual void set_action(const std::function<void(void)>&);
 };
 
 #endif // BUTTON_HPP_

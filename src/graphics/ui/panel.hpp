@@ -79,7 +79,7 @@ protected:
     Layout* layout = nullptr;
     PictureBox* background_image = nullptr;
 
-    virtual int hashcode() { return Widget::hashcode() | CONTAINER; }
+    virtual int hash_code() { return Widget::hash_code() | CONTAINER; }
     
 //    virtual void draw(sf::RenderTarget& tar, sf::RenderStates states) const {
 //        states.transform *= getTransform();

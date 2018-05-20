@@ -141,6 +141,13 @@ public:
 	/// resource type parameter.
 	static bool load(RESOURCE_TYPE type, const std::string& name, const std::string& filepath);
 	
+	/// \brief This method will call the appropriate resource getter depending on resource type.
+	static sf::Texture* get_texture(const std::string& name) { return get()._get_texture(name); }
+	static sf::Font* get_font(const std::string& name) { return get()._get_font(name); }
+	static Sound* get_sound(const std::string& name) { return get()._get_sound(name); }
+	static Music* get_music(const std::string& name) { return get()._get_music(name); }
+	static sf::Font* get_global_font() { return get()._get_global_font(); }
+	
 	///\brief Clears and frees all resources.
 	static void clear();
 	
@@ -222,19 +229,19 @@ public:
 	bool load_resource(const std::string& name, RESOURCE_TYPE resource_type, const std::string& path);
 	
 	/// \brief Returns the global font of the engine. Global and default.
-	sf::Font* get_global_font();
+	sf::Font* _get_global_font();
 	
 	/// \brief Returns a registered font by name.
-	sf::Font* get_font(const std::string& name);
+	sf::Font* _get_font(const std::string& name);
 	
 	/// \brief Returns a registered texture by name.
-	sf::Texture* get_texture(const std::string& name);
+	sf::Texture* _get_texture(const std::string& name);
 	
 	/// \brief Returns a registered sound by name.
-	Sound* get_sound(const std::string& name);
+	Sound* _get_sound(const std::string& name);
 	
 	/// \brief Returns a registered music by name.
-	Music* get_music(const std::string& name);
+	Music* _get_music(const std::string& name);
 	
 	bool free_resources();
 	bool free_textures();

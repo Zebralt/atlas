@@ -15,16 +15,16 @@ std::string Widget::getName() {
 	return name; 
 }
 
-void Widget::onMouseEnter() { 
-	std::cout << "entered " << name << std::endl; 
-	/*setBackgroundColor(sf::Color::Blue);*/
-}
+//void Widget::onMouseEnter() { 
+////	std::cout << "entered " << name << std::endl; 
+//	/*setBackgroundColor(sf::Color::Blue);*/
+//}
+//
+//void Widget::onMouseLeave() { 
+////	std::cout << "left " << name << std::endl;
+//	/*setBackgroundColor(sf::Color::Red);*/
+//}
 
-void Widget::onMouseLeave() { 
-	std::cout << "left " << name << std::endl;
-	/*setBackgroundColor(sf::Color::Red);*/
-}
-
-int Widget::hashcode() { 
-	return MouseReceptiveSurface::hashcode();// | Blob::hashcode(); 
+int Widget::hash_code() { 
+	return MouseReceptiveSurface::hash_code();// | Blob::hash_code(); 
 	}

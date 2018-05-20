@@ -1,3 +1,13 @@
+#include "button.hpp"
+
+Button::Button() : Label() {}
+Button::Button(sf::Font* f) : Label(f) {}
+Button::Button(const std::string& text, sf::Font* f) : Label(text, f) {}
+
+void Button::set_action(const std::function<void(void)>& action) {
+    setMouseClickAction(action);
+}
+
 /*#include <iostream>
 
 #include "button.hpp"

@@ -33,11 +33,6 @@ public:
 
     sf::Text& getText();
 
-    /// ABSTRACT METHODS
-
-    virtual void onMouseEnter();
-    virtual void onMouseLeave();
-
     bool animated();
 protected:
     sf::Text label;

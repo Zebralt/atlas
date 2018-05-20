@@ -38,6 +38,7 @@ public:
     virtual void setOrigin(sf::Vector2f);
     virtual void setSize(int, int);
     virtual void setOpacity(int);
+    virtual void setPadding(int);
 
     sf::Vector2f getPosition();
     sf::Vector2f getOrigin();

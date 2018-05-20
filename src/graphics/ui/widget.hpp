@@ -20,9 +20,9 @@ public:
     
     std::string getName();
     
-    virtual void onMouseEnter();
-    virtual void onMouseLeave();
-    virtual int hashcode();
+//    virtual void onMouseEnter();
+//    virtual void onMouseLeave();
+    virtual int hash_code();
 };
 
 #endif // WIDGET_HPP_

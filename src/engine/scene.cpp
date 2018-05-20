@@ -3,6 +3,7 @@
 #include "../graphics/ui/picture.hpp"
 #include "../graphics/animations/translation.hpp"
 #include "../graphics/ui/label.hpp"
+#include "../graphics/ui/button.hpp"
 #include "../tools/strmanip.hpp"
 
 // You should explore the principle of 'Scene's
@@ -48,16 +49,35 @@ void EngineLogoScene::initialize() {
 	
 	// create label
 	label = new Label(Engine::get().get_global_font());
+	label->setPadding(20);
+	label->setBackgroundColor(sf::Color::Red);
 	label->setText(insert_args(default_message, {std::to_string(count)}));
 	label->setPosition(sf::Vector2f(Engine::get_setting("video/resolution/width").as_int()/2 - label->getSize().w/2, 5));
 	label->setTextColor(sf::Color::Black);
 	
-	Engine::register_widget(label);
+	label->setMouseClickAction([](){
+		LOG("LABEL CLICKED !");
+	});
+	
+	auto btn = new Button(Engine::get_global_font());
+	btn->setPadding(20);
+	btn->setBackgroundColor(sf::Color::Blue);
+	btn->setText("Click here !");
+	btn->setPosition(Vec2f(20, 20));
+	btn->setTextColor(sf::Color::Black);
+	
+	btn->setMouseClickAction([](){
+		LOG("hello there ! Click registered.");
+	});
+	
+	Engine::register_widget("l1", label);
+	Engine::register_widget("btn_1", btn);
 	
 	auto a1 = new GoTo(Vec2(300,300), 5.5);	
 	label->runAnimation(a1);
 	
 	sprites.push_back(label);
+	sprites.push_back(btn);
 	
 	// initialize timer
 	create_timer("countdown_to_exit");
