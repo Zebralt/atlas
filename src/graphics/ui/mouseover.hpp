@@ -89,6 +89,12 @@ public:
 		regularBackgroundColor = c;
     }
     
+    void clear_actions() {
+        on_mouse_enter_action = [](){};
+        on_mouse_leave_action = [](){};
+        on_mouse_click_action = [](){};
+    }
+    
 private:
     bool hovering = false;
     sf::View* targetView = nullptr;

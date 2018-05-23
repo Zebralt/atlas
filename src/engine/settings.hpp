@@ -3,21 +3,12 @@
 
 #include <fstream>
 #include <map>
-#include "../pugixml/pugixml.hpp"
+#include "../tools/xml_document.hpp"
 
-//typedef std::variant<int, double, std::string> setting_variant;
-typedef pugi::xml_attribute setting_variant;
-
-class Settings {
+class EngineSettings : public XmlDocument {
 	public:
-		Settings();
-		Settings(const std::string& filepath);
-		void load_from_file(const std::string& filepath);
-		setting_variant get(const std::string& name);
-		int as_int(const std::string& name);
-		std::string as_string(const std::string& name);
-	private:
-		pugi::xml_document xml_data;
+		EngineSettings() : XmlDocument() {}
+		EngineSettings(const std::string& filepath) : XmlDocument(filepath) {}
 };
 
 /*

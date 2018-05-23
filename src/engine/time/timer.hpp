@@ -90,7 +90,7 @@ private:
 	
 protected:
 	Timer timer;
-	int past;
+	int past = 0;
 };
 
 #endif // TIMER_HPP_

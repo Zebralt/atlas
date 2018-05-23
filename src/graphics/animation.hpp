@@ -25,6 +25,9 @@ enum AnimationType {
     Value
 };
 
+/**
+    \brief Animations are processes with a finite time duration.
+*/
 class Animation : public Temporary, public TimeEnabled {
 public:
     Animation(TIMEWISE_PARAMS);
@@ -37,6 +40,17 @@ protected:
     float duration = 1;
 };
 
+/**
+    \brief Actions allow you to operate gradual processes on target objects,
+    such as gradually moving from point A to point B, or progressively 
+    decreasing opacity to smoothly close a visual element. 
+    If you wish to destroy an object only once all actions operating on it (for 
+    example if you want to have a graphical element exit by moving out of the screen, 
+    you would want to be deleted after it has gone out of screen), you can simply
+    terminate the object (setStatus(TERMINATED)) while animations are still running.
+    The engine will delete the object only when all animations have been terminated
+    as well.
+    */
 class Action : public Animation {
 public:
     Action(TIMEWISE_PARAMS);
@@ -45,6 +59,10 @@ protected:
     Blob* target = nullptr;
 };
 
+/**
+    \brief This action allows to have the target object gradually disappear from
+    screen.
+*/
 class FadeIn : public Action {
 public:
     FadeIn(TIMEWISE_PARAMS);
@@ -110,6 +128,7 @@ public:
 class Sequence : public Action, public Container<Action*> {
 public:
     Sequence(float duration = 0, int wait = 0, int interval = 0);
+    Sequence(const std::vector<Action*>& , float duration = 0, int wait = 0, int interval = 0);
     void update();
     void set_target(Blob* target);
 private:
@@ -119,6 +138,7 @@ private:
 class Group : public Action, public Container<Action*> {
 public:
     Group(TIMEWISE_PARAMS);
+    Group(const std::vector<Action*>&, TIMEWISE_PARAMS);
     void update();
     void set_target(Blob* target);
 };

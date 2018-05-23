@@ -71,31 +71,39 @@ void Panel::update() {
     }*/
 }
 
-void Panel::move_in(Engine* app) {
-//	if (background_image) {
-//		app->add_widget(background_image->getName(), background_image);
-//	}
-//    for (uint i=0;i<items.size();i++) {
-//        if (items[i]) app->add_widget(items[i]->getName(),items[i]);
-//        else LOG("null item in panel<" << name << ">");
-//    }
-}
+//void Panel::move_in(Engine* app) {
+////	if (background_image) {
+////		app->add_widget(background_image->getName(), background_image);
+////	}
+////    for (uint i=0;i<items.size();i++) {
+////        if (items[i]) app->add_widget(items[i]->getName(),items[i]);
+////        else LOG("null item in panel<" << name << ">");
+////    }
+//}
+//
+//void Panel::move_out(Engine* app) {
+////	if (background_image) app->remove_widget(background_image->getName());
+////    for (uint i=0;i<items.size();i++) {
+////        if (items[i]) app->remove_widget(items[i]->getName());
+////        else LOG("null item in panel<" <<  name << ">");
+////    }
+//}
 
-void Panel::move_out(Engine* app) {
-//	if (background_image) app->remove_widget(background_image->getName());
-//    for (uint i=0;i<items.size();i++) {
-//        if (items[i]) app->remove_widget(items[i]->getName());
-//        else LOG("null item in panel<" <<  name << ">");
-//    }
+void Panel::register_elements() {
+    for (auto item : items) {
+        Engine::register_widget(item);
+    }
 }
 
 void Panel::setLayout(Layout* l) {
+    if (!l) return;
     if (layout) {
         Layout* e = layout;
         delete(e);
     }
     layout = l;
-    layout->layoutTarget();
+    layout->setTarget(this);
+    if (size()) layout->layoutTarget();
 }
 
 /////////////////////////////////////////////////////////////////////////////////
@@ -103,13 +111,13 @@ void Panel::setLayout(Layout* l) {
 void ColumnLayout::layoutTarget() {
     uint tmp_size = target->size();
     for (uint i=0;i<tmp_size; i++) {
-        Widget* w = (*target)[i];
+        Widget* w = target->get(i);//(*target)[i];
         if (w) {
             if (margin) {
                 float true_global_height = target->getSize().h - margin * (tmp_size + 1);
                 float true_element_height = true_global_height/tmp_size;
                 float remainder = true_element_height - (long) true_element_height;
-                LOG("remainder=" << remainder);
+//                LOG("remainder=" << remainder);
                 if (remainder) {
                     /// resize time !
                     true_element_height += (1 - remainder);
@@ -136,7 +144,7 @@ void GridLayout::layoutTarget() {
     uint col_it = 0;
     uint tmp_size = target->size();
     for (uint i=0;i<tmp_size;i++) {
-        Widget* w = (*target)[i];
+        Widget* w =target->get(i);
         if (w) {
             /*if (margin) {
                 float true_global_height = target->getSize().h - margin * (tmp_size + 1);
@@ -185,44 +193,47 @@ void GridLayout::layoutTarget() {
 }
 
 /// PANEL BACKGROUND IMAGE
-
-void Panel::setBackgroundImage(PictureBox* image) {
-	if (image) {
-		background_image = image;
-		background_image->setOrigin(position);
-//		setOrigin(position);
-		adjustBackgroundImage();
-	}
-}
-
-void Panel::setBackgroundImageSize(int w, int h) {
-	if (background_image) {
-		background_image->setSize(w,h);
-		adjustBackgroundImage();
-	}
-}
-
-void Panel::fitBackgroundImage(float fx, float fy) {
-	if (background_image) {
-		background_image->setSize(width*fx,height*fy);
-		adjustBackgroundImage();
-	}
-}
-
-void Panel::fitBackgroundImage(float factor = 1) {
-	if (background_image) {
-		background_image->setSize(width*factor,height*factor);
-		adjustBackgroundImage();
-	}
-}
-
-void Panel::adjustBackgroundImage() {
-	if (background_image) {
-		background_image->setPosition(sf::Vector2f(width/2 - background_image->getSize().w/2,height/2 - background_image->getSize().h/2));
-	}
-}
+//
+//void Panel::setBackgroundImage(PictureBox* image) {
+//	if (image) {
+//		background_image = image;
+//		background_image->setOrigin(position);
+////		setOrigin(position);
+//		adjustBackgroundImage();
+//	}
+//}
+//
+//void Panel::setBackgroundImageSize(int w, int h) {
+//	if (background_image) {
+//		background_image->setSize(w,h);
+//		adjustBackgroundImage();
+//	}
+//}
+//
+//void Panel::fitBackgroundImage(float fx, float fy) {
+//	if (background_image) {
+//		background_image->setSize(width*fx,height*fy);
+//		adjustBackgroundImage();
+//	}
+//}
+//
+//void Panel::fitBackgroundImage(float factor = 1) {
+//	if (background_image) {
+//		background_image->setSize(width*factor,height*factor);
+//		adjustBackgroundImage();
+//	}
+//}
+//
+//void Panel::adjustBackgroundImage() {
+//	if (background_image) {
+//		background_image->setPosition(sf::Vector2f(width/2 - background_image->getSize().w/2,height/2 - background_image->getSize().h/2));
+//	}
+//}
 
 Panel::~Panel() {
 //	if (background_image) delete(background_image);
 	if (layout) delete(layout);
+	for (auto item : items) {
+        item->setStatus(TERMINATED);
+	}
 }

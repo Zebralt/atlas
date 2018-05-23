@@ -2,20 +2,36 @@
 #include <SFML/Audio.hpp>
 #include "engine/engine.hpp"
 #include "game/snake_game/snake_game.hpp"
-#include <windows.h>
+#include "engine/pipeline.hpp"
+
+#include "game/show_cards/show_cards.hpp"
 
 #include "../test/test.hpp"
+
+#include <windows.h>
+
+#include "engine/pipeline.hpp"
 
 int test_SFML();
 
 int main() {
     
-    run_tests();
-    Engine::init();
+//    run_tests();
+//    Engine::init();//"resources/show_cards/settings.xml");
 //    Engine::load_scene(new SnakeGameScene(10,10));
-    Engine::run();
+////    Engine::load_scene(new ShowCardsScene());
+//    Engine::run();
+//    
+//    return Engine::get_status();
     
-    return Engine::get_status();
+    auto pipeline = new EnginePipeline("engine_pipeline.xml");
+    
+    LOG(*pipeline);
+    
+    pipeline->run();
+    
+    return pipeline->data();
+    
 }
 
 int test_SFML() {

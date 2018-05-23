@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<pipeline>
+	<unit name="tests" output="log/test.log" />
+	<unit name="show_cards" /> 
+<!--	<unit name="snake_game" /> -->
+<!--	<unit name="default_scene" /> -->
+</pipeline>

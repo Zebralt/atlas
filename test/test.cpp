@@ -12,9 +12,9 @@ void run_strmanip_tests() {
 	INIT_RESULT;
 	TEST_PREFIX(name);
 	
-	RUN_TEST test_replace_all();
+	RUN_TEST test_replace_all();	
 	RUN_TEST test_insert_args();
-	RUN_TEST test_extract_substring();
+//	RUN_TEST test_extract_substring();
 	RUN_TEST test_split();
 	RUN_TEST test_parse_file();
 	RUN_TEST test_trim();
@@ -35,18 +35,43 @@ void run_menu_tests() {
 	CHECK_TEST_GROUP(name);
 }
 
-void run_tests() {
-	std::string log_file = "log/tests.log";
+#include "test_xml.hpp"
+
+void run_xml_tests() {
+	std::string name = "xml_document";
 	
-	TEST_LOG("Running tests. Output at " + log_file);
-	/// reroute output
-	std::ofstream out(log_file);
-    std::streambuf *coutbuf = std::cout.rdbuf(); //save old buf
-    std::cout.rdbuf(out.rdbuf()); //redirect std::cout to out.txt!
+	INIT_RESULT;
+	TEST_PREFIX(name);
 	
-	/// and others ...
+	RUN_TEST test_load();
+	RUN_TEST test_has();
+	RUN_TEST test_get();
+	
+	CHECK_TEST_GROUP(name);
+}
+
+void run_all_tests() {
 	run_strmanip_tests();
+	run_xml_tests();
+}
+
+void run_tests(const std::string& output) {
+	std::string log_file = output.empty() ? "log/tests.log" : output;
 	
-	/// reset cout
-    std::cout.rdbuf(coutbuf); //reset to standard output again
+	if (log_file != "cout" && !log_file.empty()) {
+		TEST_LOG("Running tests. Output at " + log_file);
+		/// reroute output
+		std::ofstream out(log_file);
+		std::streambuf *coutbuf = std::cout.rdbuf(); //save old buf
+		std::cout.rdbuf(out.rdbuf()); //redirect std::cout to out.txt!
+		
+		/// and others ...
+		run_all_tests();
+		
+		/// reset cout
+		std::cout.rdbuf(coutbuf); //reset to standard output again
+	}
+	else {
+		run_all_tests();
+	}
 }

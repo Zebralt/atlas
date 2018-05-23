@@ -30,6 +30,7 @@ template <typename T> void update_or_delete(std::vector<T*>& items) {
         }
         else {
             _FREE(*it);
+            LOG("deleted temporary");
             it = items.erase(it);
             continue;
         }
@@ -45,6 +46,7 @@ template <typename U, typename T> void update_or_delete(std::map<U, T*>& items) 
         }
         else {
             _FREE(it->second);
+            LOG("deleted temporary");
             it = items.erase(it);
             continue;
         }

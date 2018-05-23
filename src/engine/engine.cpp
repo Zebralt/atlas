@@ -14,7 +14,7 @@
 /// 
 
 Engine* Engine::singleton = nullptr;
-int Engine::update_interval = 17;
+int Engine::update_interval = 16;
 Vec2 Engine::mouse_position = Vec2();
 
 
@@ -43,6 +43,7 @@ void Engine::clear() {
     auto sp = new Sprite();
     // TODO add it to blobs
     sp->setTexture(tex);
+    register_blob(sp);
     return sp;
 }
 
@@ -50,6 +51,7 @@ Sprite* Engine::create_sprite(sf::Texture* tex, const Rect& r) {
     auto sp = new Sprite();
     // TODO add it to blobs
     sp->setTexture(tex, r);
+    register_blob(sp);
     return sp;
 }
 
@@ -109,14 +111,33 @@ Widget* Engine::get_widget(const std::string& name) {
 	
 /// NON-STATIC METHODS
 
-bool Engine::init_engine() {
+void load_default() {
+    std::string windows_fonts_prefix = "C:/Windows/Fonts/";
+    Engine::load(FONT, "arial", windows_fonts_prefix + "ARIAL.TTF");
+    Engine::load(FONT, "segoe", windows_fonts_prefix + "SEGOEUI.TTF");
+    Engine::load(FONT, "segoe_semi_light", windows_fonts_prefix + "SEGOEUISL.TTF");
+    Engine::load(FONT, "segoe_light", windows_fonts_prefix + "SEGOEUIL.TTF");
+}
+
+bool Engine::init_engine(const std::string& settings_path) {
     /// 1. load settings from XML files
-    settings.load_from_file("settings.xml");
+    if (settings_path.empty())
+        settings.load_from_file("settings.xml");
+    else
+        settings.load_from_file(settings_path);
     /// 2. load SFML context settings
+    
+    load_default();
     
     sf::ContextSettings context_settings;
 	context_settings.antialiasingLevel = 8;
-	window = new sf::RenderWindow(sf::VideoMode(settings.as_int("video/resolution/width"), settings.as_int("video/resolution/height")), "test sfml app",sf::Style::Close,context_settings);
+	window = new sf::RenderWindow(
+        sf::VideoMode(settings.geti("video/resolution/width"), 
+        settings.geti("video/resolution/height")), 
+        settings.has("title") ? settings.gets("title") : "test sfml app", 
+        sf::Style::Close,
+        context_settings
+	);
 //    keyregister.init();
     if (!load_global_font("resources/fonts/Roboto-Medium.ttf")) {
         return false;
@@ -146,22 +167,37 @@ void Engine::run_engine() {
 }
 
 void Engine::update() {
+    int now = timer.as_milliseconds();
+    if (now - past > Engine::update_interval) {
+
+        if (current_scene) current_scene->update();
     
-    if (current_scene) current_scene->update();
+        update_or_delete(blobs);
+        update_or_delete(widgets);
+//        update_or_delete(animations);
+        
+        // as widgets may have moved, check mousemove
+        handle_mousemove_events();
     
-    update_or_delete(blobs);
-    update_or_delete(animations);
+        past = now;
+    }
 }
 
 void Engine::update_screen() {
     
     // draw a black background
-    window->clear(sf::Color::White);
+    window->clear(refresh_background_color);
     
     window->draw(*current_scene);
     
     /// 1. draw all graphical objects
+    for (auto& blob : blobs) {
+        window->draw(*blob);
+    }
     /// 2. draw UI widgets atop
+    for (auto& widget : widgets) {
+        window->draw(*widget);
+    }
     /// 3. draw transition element
     
     window->display();
@@ -188,8 +224,8 @@ void Engine::handle_events() {
 //        handle_mouse_events(event);
         
         // if mouse move event
-        if (event.type == sf::Event::MouseMoved)
-            handle_mousemove_events(event);
+//        if (event.type == sf::Event::MouseMoved)
+//            handle_mousemove_events();
         
         // if mouse click event
         if (event.type == sf::Event::MouseButtonPressed)
@@ -203,14 +239,14 @@ void Engine::handle_keyboard_events(sf::Event& event) {
 
 }
 
-void Engine::handle_mousemove_events(sf::Event& event) {
-    handle_mouseover_events(event);
+void Engine::handle_mousemove_events() {
+    handle_mouseover_events();
 }
 
-void Engine::handle_mouseover_events(sf::Event& event) {
+void Engine::handle_mouseover_events() {
     
     for (auto& widget : widgets) {
-        if (!widget) continue;
+        if (!widget ||(widget && !widget->getStatus())) continue;
         
         bool mouseover = widget->getRect().contains(Engine::get_mouse_position());
         
@@ -223,7 +259,6 @@ void Engine::handle_mouseover_events(sf::Event& event) {
             widget->onMouseLeave();
         }
     }
-    
 }
 
 void Engine::handle_mouseclick_events(sf::Event& event) {
@@ -234,7 +269,7 @@ void Engine::handle_mouseclick_events(sf::Event& event) {
     for (auto it = widgets.end() - 1; it != widgets.begin() - 1; --it) {
         auto widget = *it;
         
-        if (!widget) continue;
+        if (!widget ||(widget && !widget->getStatus())) continue;
         // assuming mouseovers have been computed beforehand
         if (widget->getHover()) {
             widget->onClick();
@@ -499,7 +534,7 @@ void Engine::add_widget(const std::string& name, Widget* w) {
     widgets.push_back(w);
     if (w->hash_code() & CONTAINER) {
 //        LOG(w->getName() << " is a container:size = " << ((Panel*)w)->getItems().size());
-        ((Panel*)w)->move_in(this);
+        ((Panel*)w)->register_elements();
         //Panel* cont = (Panel*) w;
         //for (uint i=0; i<cont->items.size(); i++) {
         //    addWidget(cont->items[i]->getName(), cont->items[i]);

@@ -4,28 +4,27 @@
 #include <SFML/Graphics.hpp>
 
 #include "widget.hpp"
-//#include "ui.hpp"
 
-/// SOme ideas before I forget :
-/// Label could use Engine::global_font by default if no font specified
-/// If initial text, have label of the length of the text (duh...)
-/// or at least have the position of label refers to the left edge
-/// of the text.
+/// You can wrap text with '\n', but you need to wrap it manually.
 
 enum TextAlign {Left,Center,Right};
 
+/**
+	\brief A class to display text.
+*/
 class Label : public Widget {
 public:
     Label();
+    Label(const std::string& text);
     Label(sf::Font*);
-    Label(std::string text, sf::Font*);
+    Label(const std::string& text, sf::Font*);
     
     void setOrigin(sf::Vector2f v);
     void setPosition(sf::Vector2f v);
-
+	virtual void setPadding(int);
     virtual void setOpacity(int r);
 
-    void setText(std::string s);
+    void setText(const std::string& s);
     void setTextSize(int s);
     void setTextColor(sf::Color c);
     void setTextAlign(TextAlign a);
@@ -48,30 +47,5 @@ protected:
         tar.draw(label);
     }
 };
-
-//////////////////
-/*
-class TextBox : public Label {
-public:
-	TextBox();
-	TextBox(sf::Font*);
-	TextBox(std::string,sf::Font*);
-	
-	void generateLabels(int);
-	void setPosition(sf::Vector2f);
-	void setOrigin(sf::Vector2f);
-	
-	void setOpacity(int);
-	
-	void setTextSize(int);
-	
-	bool direction = 0; // 1 = downward, 0 = upward
-	
-protected:
-	sf::Text label;
-	TextAlign align;
-	sf::Font* font;
-	
-};*/
 
 #endif

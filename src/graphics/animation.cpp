@@ -115,6 +115,9 @@ void GoTo::set_target(Blob* target) {
 }
 
 Sequence::Sequence(float duration, int wait, int interval) : Action(duration, wait, interval) {}
+Sequence::Sequence(const std::vector<Action*>& elems, float duration, int wait, int interval) : Action(duration, wait, interval) {
+	addAll(elems);
+}
 
 void Sequence::update() {
 	int now = timer.as_milliseconds();
@@ -125,6 +128,7 @@ void Sequence::update() {
 					items[it]->update();
 				}
 				else {
+					_FREE(items[it]);
 					++it;
 					if (it >= size()) TERMINATE;
 					else if (items[it]) now += items[it]->getPast();

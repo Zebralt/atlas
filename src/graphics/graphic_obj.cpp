@@ -30,7 +30,7 @@ void Blob::runAnimation(Action* a) {
 
 void Blob::update() {
     
-    if (status == RUNNING) {
+    if (status != IDLE) {
         update_or_delete(typed_animations);
         update_or_delete(generic_animations);
     }
@@ -44,6 +44,16 @@ bool Blob::terminated() {
 
 bool Blob::animated() {
     return generic_animations.size() || typed_animations.size();
+}
+
+Blob::~Blob() {
+    for (auto it = typed_animations.begin(); it != typed_animations.end(); ++it) {
+        _FREE(it->second);
+    }
+    
+    for (auto& ptr : generic_animations) {
+        _FREE(ptr);
+    }
 }
 
 /*

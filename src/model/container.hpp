@@ -2,20 +2,56 @@
 #define container_hpp__
 
 #include <vector>
+#include <iostream>
+#include <algorithm>
 
+typedef unsigned int uint;
+
+/**
+    \brief A class referencing multiple items of one type.
+*/
 template <typename T>
-class Container {
+class Collection {
 public:
-    virtual void add(T t) { items.push_back(t); }
-    virtual std::vector<T>& allitems() { return items; }
-    virtual T get(const uint& i) {/*if (i >= 0 && i < items.size())*/ return items[i];}
-    T& operator[](const int& it) {
-        return it > 0 ? items[it%size()] : items[size() - (-it)%size()];
-    }
     uint size() { return items.size(); }
 protected:
     std::vector<T> items;
 };
+
+/**
+    \brief A collection of objects with regular access
+    (you can add items, remove items, get items).
+*/
+template <typename T>
+class Container : public Collection<T> {
+public:
+    virtual void add(T t) { this->items.push_back(t); }
+    void addAll(const std::vector<T>& elems) { this->items.insert(this->items.end(), elems.begin(), elems.end()); }
+    virtual std::vector<T> allitems() const { return this->items; }
+    virtual void remove(T t) { 
+        auto it = this->items.begin();
+        if ((it = std::find(this->items.begin(), this->items.end(), t)) != this->items.end()) 
+            this->items.erase(it); 
+    }
+    virtual T get(const uint& i) const {/*if (i >= 0 && i < this->items.size())*/ return this->items[i];}
+//    T& operator[](const int& it) {
+//        return it > 0 ? this->items[it%size()] : this->items[size() - (-it)%size()];
+//    }
+};
+
+
+/**
+    \brief A collection of items with 
+    First-in-first-out style access. (So, a stack ?)
+*/
+template <typename T>
+class Stack : public Collection<T> {
+public:
+    virtual void push(T a) { this->items.push_back(a); }
+    virtual T pop() { return this->items.pop_back(), top(); }
+    virtual T top() { return this->items[this->items.size() - 1]; }
+};
+
 
 template <typename T>
 class List : public Container<T> {
@@ -28,7 +64,16 @@ public:
 };
 
 template <typename T>
-class CycleList : public List<T> {
+class Cycle {
+public:
+    virtual void next() = 0;
+    virtual void previous() = 0;
+    virtual T get() = 0;
+//    virtual void cycle() = 0;
+};
+
+template <typename T>
+class CycleList : public List<T>, public Cycle<T> {
     uint cursor = 0;
 public:
     virtual void next() {

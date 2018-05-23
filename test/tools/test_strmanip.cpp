@@ -14,10 +14,10 @@ bool test_replace_all() {
 	auto t1 = replace_all(m1, o1, s1);
 	auto t2 = replace_all(m2, o2, s2);
 	
-	if (t1 != a1) FAIL_TEST(name);
-	if (t2 != a2) FAIL_TEST(name);
+	if (t1 != a1) FAIL_TEST;
+	if (t2 != a2) FAIL_TEST;
 	
-	PASS_TEST(name);
+	PASS_TEST;
 }
 
 bool test_insert_args() {
@@ -33,10 +33,10 @@ bool test_insert_args() {
 	auto t1 = insert_args(m1, v1);
 	auto t2 = insert_args(m2, v2);
 	
-	if (t1 != a1) FAIL_TEST(name);
-	if (t2 != a2) FAIL_TEST(name);
+	if (t1 != a1) FAIL_TEST;
+	if (t2 != a2) FAIL_TEST;
 	
-	PASS_TEST(name);
+	PASS_TEST;
 }
 
 bool test_trim() {
@@ -44,17 +44,28 @@ bool test_trim() {
 	
 	std::string m1 = "  Hello there ! I hope you'ven been well	";
 	std::string a1 = "Hello there ! I hope you'ven been well";
-	std::string m2 = "abcdef ghijkl";
+	std::string m2 = "	abcdef ghijkl	";
 	std::string a2 = "abcdef ghijkl";
 	
 	auto t1 = trim(m1);
 	auto t2 = trim(m2);
 	
-	if (t1 != a1) FAIL_TEST(name);
-	if (t2 != a2) FAIL_TEST(name);
+	if (t1 != a1) FAIL_TEST;
+	if (t2 != a2) FAIL_TEST;
 	
-	PASS_TEST(name);
+	PASS_TEST;
 }
+
+bool test_trim_internal() {
+	std::string name = APPEND_PREFIX + "trim_internal";
+	PASS_TEST;
+}
+
+bool test_replace_char() {
+	std::string name = APPEND_PREFIX + "replace_char";
+	PASS_TEST;
+}
+
 bool test_extract_substring() {
 	std::string name = APPEND_PREFIX + "extract_substring";
 	
@@ -68,10 +79,10 @@ bool test_extract_substring() {
 	auto t1 = extract_substring(m1, x1);
 	auto t2 = extract_substring(m2, x2);
 	
-	if (t1 != a1) FAIL_TEST(name);
-	if (t2 != a2) FAIL_TEST(name);
+	if (t1 != a1) FAIL_TEST;
+	if (t2 != a2) FAIL_TEST;
 	
-	PASS_TEST(name);
+	PASS_TEST;
 }
 
 bool test_split() {
@@ -83,13 +94,13 @@ bool test_split() {
 	
 	auto t1 = split(m1, x1);
 	
-	if (t1 != a1) FAIL_TEST(name);
+	if (t1 != a1) FAIL_TEST;
 	
-	PASS_TEST(name);
+	PASS_TEST;
 }
 
 bool test_parse_file() {
 	std::string name = APPEND_PREFIX + "parse_file";
 	
-	PASS_TEST(name);
+	PASS_TEST;
 }

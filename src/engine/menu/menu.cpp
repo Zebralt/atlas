@@ -2,11 +2,11 @@
 #include "../../pugixml/pugixml.hpp"
 
 MenuItem::MenuItem() {}
-MenuItem::MenuItem(const std::string& name) : name(name) {}
+MenuItem::MenuItem(const std::string& text) : text(text) {}
 
-Menu::Menu() {}
+MenuModel::MenuModel() {}
 
-bool Menu::load_from_file(const std::string& filepath) {
+bool MenuModel::load_from_file(const std::string& filepath) {
 	pugi::xml_document xml_doc;
 //	auto parse_result = xml_doc.load_file(filepath.c_str());
 	

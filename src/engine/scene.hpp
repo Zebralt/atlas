@@ -61,13 +61,13 @@ public:
 	virtual ~Scene();	
 	
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates rss) const {
-		for (auto sprite : sprites) {
-			target.draw(*sprite, rss);
-		}
+//		for (auto sprite : sprites) {
+//			target.draw(*sprite, rss);
+//		}
 	}
 	
 protected:
-	std::vector<Blob*> sprites;
+//	std::vector<Blob*> sprites;
 };
 
 /**

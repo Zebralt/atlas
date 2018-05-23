@@ -2,6 +2,14 @@
 
 #include "label.hpp"
 
+Label::Label() : Label(Engine::get_global_font()) {
+    
+}
+
+Label::Label(const std::string& text) : Label(text, Engine::get_global_font()) {
+
+}
+
 Label::Label(sf::Font* ft) : Widget() {
     name += "_label";
     label.setCharacterSize(20);
@@ -13,16 +21,16 @@ Label::Label(sf::Font* ft) : Widget() {
     alignText();
 }
 
-Label::Label() : Widget() {
-    name += "_label";
-    label.setCharacterSize(20);
-    label.setColor(sf::Color::Yellow);
-    
-    computeTextSize();
-    alignText();
-}
+//Label::Label() : Widget() {
+//    name += "_label";
+//    label.setCharacterSize(20);
+//    label.setColor(sf::Color::Yellow);
+//    
+//    computeTextSize();
+//    alignText();
+//}
 
-Label::Label(std::string text, sf::Font* ft) : Widget() {
+Label::Label(const std::string& text, sf::Font* ft) : Widget() {
     name += "_label";
 
     this->label.setString(text);
@@ -51,7 +59,7 @@ void Label::setOrigin(sf::Vector2f v) {
     alignText();
 }
 
-void Label::setText(std::string s) {
+void Label::setText(const std::string& s) {
     label.setString(s);
     computeTextSize();
     alignText();
@@ -70,6 +78,12 @@ void Label::setTextSize(int s) {
 void Label::setTextAlign(TextAlign a) {
     align = a;
     alignText();
+}
+
+void Label::setPadding(int pad) {
+    Drawable::setPadding(pad);
+    
+    computeTextSize();
 }
 
 void Label::setFont(sf::Font* f) {
@@ -97,7 +111,7 @@ void Label::alignText() {
 }
 
 void Label::computeTextSize() {
-    setSize(label.getLocalBounds().width, label.getLocalBounds().height);
+    setSize(label.getLocalBounds().width + padding * 2, label.getLocalBounds().height + padding * 2);
 }
 
 void Label::setOpacity(int r) {
@@ -108,4 +122,3 @@ void Label::setOpacity(int r) {
 sf::Text& Label::getText() {
     return label;
 }
-

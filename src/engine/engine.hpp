@@ -13,6 +13,8 @@
 /// Proprietary headers
 #include "settings.hpp"
 #include "../global.hpp"
+#include "time/timer.hpp"
+#include "../model/container.hpp"
 
 // ^Please follow this order of headers includes.
 // Indentation is of 4 spaces.
@@ -27,6 +29,8 @@ class Animation;
 
 class Scene;
 class Transition;
+
+class MenuController;
 
 /// \brief This enumeration contains all possible states
 /// for the engine to find itself in, as to determine which
@@ -78,7 +82,7 @@ bool operator<(const EngineViewport& a, const EngineViewport& b);
 	end status with `get_status()`.
 	
 */
-class Engine {
+class Engine : public TimeEnabled {
 public:
 	/// SINGLETON 
 	
@@ -94,8 +98,8 @@ public:
 	/// \brief Initializes the engine.This will load settings from a XML file 
 	/// (currently 'settings.xml', sitting at the root of the project) and
 	/// initialize the SFML interface (context settings and render window).
-	static bool init() {
-		return get().init_engine();
+	static bool init(const std::string& settings_path = "") {
+		return get().init_engine(settings_path);
 	}
 	
 	/// \brief This method contains the main loop of the engine. If no scene
@@ -123,10 +127,13 @@ public:
 		get().current_scene = s;
 	}
 	
-	static pugi::xml_attribute get_setting(const std::string& name) {
-		return get().settings.get(name);
-	}
+	static std::string getSetting(const std::string& name) {
+		return get().settings.gets(name);
+	}	
 	
+	static int getIntegerSetting(const std::string& name) {
+		return get().settings.geti(name);
+	}	
 	
 	/// \brief This is the interval (in milliseconds) between each update iteration.
 	/// As it is needed outside of the Engine class, notably to compute animations variables,
@@ -177,25 +184,38 @@ public:
 	/// alpha parameter, and specify which part of the texture to use.
 	static Sprite* create_sprite(const std::string& filepath, const Rect&, const std::string& alpha);
 	
+	/// \brief Instead of handling your own widgets, you should register them all to the engine
+	/// which will be responsible for updating them and drawing them on the screen.
 	static void register_widget(const std::string& name, Widget* widget);
+	
+	/// \brief Allows to register a widget merely by pointer.
 	static void register_widget(Widget* widget);
-	static void register_blob(const std::string& name, Blob* b);
+	
+	/// \brief You should let the engine handle graphical objects by registering them with this
+	/// method.
 	static void register_blob(Blob* b);
 	
+	/// \brief Retrieves a widget by name, if it exists.
 	static Widget* get_widget(const std::string& name);
 	
+	/// \brief Returns the position of the mouse relative to the screen. The mouse position is 
+	/// updated whenever it moves.
 	static Vec2 get_mouse_position() {
 		return mouse_position;
 	}
 	
-//	void load_settings(Settings&);
+	/// \brief The refresh background color is the color that appears by default when SFML redraws
+	/// the screen. This allows you to select the default background color for the window.
+	static void set_refresh_background_color(const sf::Color& c) {
+		get().refresh_background_color = c;
+	}
 	
 	/// \brief Receives events from the SFML interface. Events are sent downstream to the scene
 	/// and to the specific methods for event types.
 	void handle_events();
 		void handle_keyboard_events(sf::Event&);
-		void handle_mousemove_events(sf::Event&);
-		void handle_mouseover_events(sf::Event&);
+		void handle_mousemove_events();
+		void handle_mouseover_events();
 		void handle_mouseclick_events(sf::Event&);
 	
 	/// \brief Updates the scene and the stored elements.
@@ -255,18 +275,6 @@ public:
 	void add_flag(int flag);
 	// FORCE STATE TO THIS FLAG AND ONLY THIS FLAG
 	void set_flag(int flag);
-	
-	/// ADD OR REMOVE GRAPHICAL OBJECTS
-		
-	void add_blob(Blob* b);
-//	void add_blob(EngineViewport v, Blob* b);
-	void add_widget(const std::string& name, Widget*);
-	void add_widget(Widget*);
-    void remove_widget(const std::string&);
-    Widget* _get_widget(const std::string& name);
-    std::vector<Widget*>::iterator find_widget(const std::string& name);
-    std::vector<Widget*>::iterator find_widget(Widget*);
-
 		
 private:
 	
@@ -278,14 +286,14 @@ private:
 	int status = 1;
 	
 	/// SETTINGS
-	Settings settings;
+	EngineSettings settings;
 	
 	/// SCREEN OBJECTS
 	// LIST OF UI WIDGETS and mouse-enabled objects ...
 	std::vector<Widget*> widgets;
 	// LIST OF OTHER OBJECTS (SUCH AS GAME OBJECTS)
 	std::vector<Blob*> blobs;
-	std::vector<Animation*> animations;
+//	std::vector<Animation*> animations;
     // If you want to have some game objects mouseover or mouseclick -enabled,
     // you'll have to add to the widgets, or rethink this structure
     
@@ -307,7 +315,7 @@ private:
     Engine();	
     
     /// This must be run first.
-	bool init_engine();
+	bool init_engine(const std::string& settings_path = "");
 	
 	/// This must be run next to launch the engine.
 	void run_engine();
@@ -315,7 +323,34 @@ private:
 	/// QUIT ALTOGETHER
 	void close_engine();
 	
+	/// menu focus
+	Stack<MenuController*> menu_stack;
 	
+	/// Menu interface
+	/// The idea is that the menus contained in the menu_stack are modal menus. They will block 
+	/// the rest of the program. This feature should be use either for an all-menu scene (such as 
+	/// main title, for example) or a pause menu.
+	/// If you want to stack menus without it being modal, you can just have each menu open another
+	/// menu, and have that menu close upon conditions you define.
+	/// If the stack is not empty, then the application will focus on the top menu. This means all
+	/// other event-enabled objects will be unable to be interacted with until you have closed all
+	/// modal menus.
+	void push_menu(MenuController*);
+	
+	
+	/// ADD OR REMOVE GRAPHICAL OBJECTS
+	void add_blob(Blob* b);
+//	void add_blob(EngineViewport v, Blob* b);
+	void add_widget(const std::string& name, Widget*);
+	void add_widget(Widget*);
+    void remove_widget(const std::string&);
+    Widget* _get_widget(const std::string& name);
+    std::vector<Widget*>::iterator find_widget(const std::string& name);
+    std::vector<Widget*>::iterator find_widget(Widget*);
+    
+    
+	/// OTHERS
+	sf::Color refresh_background_color = sf::Color::Black;
 };
 
 #endif // ENGINE_HPP_

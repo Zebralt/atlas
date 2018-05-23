@@ -4,36 +4,69 @@
 #include "../../global.hpp"
 #include "../../model/container.hpp"
 
+#include <functional>
+
+//class MenuStack : public Stack<MenuController*> {
+//	
+//};
+
 class MenuItem {
 public:
 	MenuItem();
 	MenuItem(const std::string& text);
+	MenuItem(const std::string& text, const std::function<void(void)>&);
+	
+	void set_action(const std::function<void(void)>&);
+	std::function<void(void)> get_action();
+	std::string getText();
 	
 private:
-	std::string name;
+	std::string text;
+	std::function<void(void)> action;
 };
 
-class Menu : public CycleList<MenuItem*> {
+class MenuModel : public CycleList<MenuItem*> {
 public:
-	Menu();
+	MenuModel();
 	bool load_from_file(const std::string& filepath);
 	
 };
 
-//class MenuItemView : public Label {
-//public:
-//	MenuItem(MenuItem* mi, sf::Font* f);
-//	virtual void onMouseEnter();
-//	virtual void onClick();
-//};
-//
-//class MenuView : public Panel {
-//public:
-//	MenuView();
-//	MenuView(Menu* m);
-//	
-//private:
-//	Blob* selection_background = nullptr;
-//};
+#include "../../graphics/ui/label.hpp"
 
+class MenuItemView : public Label {
+public:
+	MenuItemView(MenuItem* mi) : Label() {
+		if (mi) {
+			setText(mi->getText());
+			setMouseClickAction(mi->get_action());
+		}
+	}
+};
+
+#include "../../graphics/ui/panel.hpp"
+
+class MenuView : public Panel {
+public:
+	MenuView();
+	~MenuView();
+	MenuView(MenuModel* m);
+	
+private:
+//	Blob* selection_background = nullptr;
+};
+
+class Menu : public Cycle<MenuItem*> {
+public:
+	Menu();
+	Menu(MenuModel*);
+	
+	virtual void next();
+	virtual void previous();
+	virtual MenuItem* get();
+	
+protected:
+	MenuModel* model;
+	MenuView* view;
+};
 #endif // MENU_HPP_

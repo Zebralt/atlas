@@ -15,7 +15,7 @@
 #define println(x) PRINT(x) << std::endl
 #define LOG(x) PRINTLN(x)
 
-#define _FREE(a) if (a) delete a
+ #define _FREE(a) if (a) delete a
 
 /// TYPENAMES
 
@@ -30,8 +30,6 @@ template <typename T> class ptr_vector : public std::vector<T*> {};
 template <typename T> std::ostream& operator<<(std::ostream& o, const sf::Vector2<T>& v) {
 	return o << "vec(" << v.x << ", " << v.y << ")";
 }
-
-//auto vec2i_comparator = [](const sf::Vector2i& a, const sf::Vector2i& b) { return a.x * 10 + a.y < b.x * 10 + b.y; };
 
 struct cmpVec2i {
 	bool operator()(const sf::Vector2i& a, const sf::Vector2i& b) {

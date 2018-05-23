@@ -20,6 +20,7 @@ protected:
     std::vector<Action*> generic_animations;
 public:
     Blob();
+    virtual ~Blob();
 
     /// \brief Run an animation on this object. The animation
     /// will be stored in the object, and will be deleted upon
@@ -38,6 +39,8 @@ public:
     
     /// \brief Says if the object is ready to be deleted or not.
     bool terminated();
+    
+    virtual short getStatus() { return Temporary::getStatus() ? Temporary::getStatus() : !terminated(); }
 };
 
 #endif
