@@ -1,6 +1,8 @@
-#include "../global.hpp"
+#include "global.hpp"
 #include "drawable.hpp"
 
+// namespace atlas_engine {
+    
 void Drawable::draw(sf::RenderTarget& target, sf::RenderStates stt) const {
 //    stt *= getTransform();
     target.draw(background);
@@ -75,3 +77,6 @@ void Drawable::setPadding(int i) {
 //void Drawable::fitBackground(float factor) {
 //
 //}
+
+
+// } // namespace atlas_engine

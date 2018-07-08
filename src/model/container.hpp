@@ -65,37 +65,58 @@ public:
 
 template <typename T>
 class Cycle {
+protected:
+    uint cursor = 0;
 public:
-    virtual void next() = 0;
-    virtual void previous() = 0;
-    virtual T get() = 0;
-//    virtual void cycle() = 0;
+    virtual void next() { cycle(1); };
+    virtual void previous() { cycle(-1); };
+    virtual void cycle(int i) {
+        cursor += i;
+        if (cursor < 0) {
+            cursor = this->cycleSize() - (-cursor)%this->cycleSize();
+        }
+        else if (cursor >= this->cycleSize()) {
+            cursor = cursor%this->cycleSize();
+        }
+    }
+    virtual void setCursor(int i) {
+        cursor = i;
+    }
+    virtual T current() = 0;
+    virtual int cycleSize() = 0;
 };
 
 template <typename T>
 class CycleList : public List<T>, public Cycle<T> {
-    uint cursor = 0;
 public:
-    virtual void next() {
-        cycle(1);
-    }
-    virtual void previous() {
-        cycle(-1);
+//    virtual void next() {
+//        cycle(1);
+//    }
+//    virtual void previous() {
+//        cycle(-1);
+//    }
+    
+    virtual T current() {
+        return Container<T>::get(this->cursor);
     }
     
-    virtual T get() {
-        return Container<T>::get(cursor);
+    virtual int cycleSize() {
+        return this->size();
     }
     
-    virtual void cycle(int i) {
-        cursor += i;
-        if (cursor < 0) {
-            cursor = this->size() - (-cursor)%this->size();
-        }
-        else if (cursor >= this->size()) {
-            cursor = cursor%this->size();
-        }
-    }
+//    virtual void resetCursor() {
+//        cursor = 0;
+//    }
+    
+//    virtual void cycle(int i) {
+//        cursor += i;
+//        if (cursor < 0) {
+//            cursor = this->size() - (-cursor)%this->size();
+//        }
+//        else if (cursor >= this->size()) {
+//            cursor = cursor%this->size();
+//        }
+//    }
 };
 
 #endif // container_hpp__

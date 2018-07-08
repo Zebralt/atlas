@@ -4,6 +4,10 @@
 #include "widget.hpp"
 #include "picture.hpp"
 
+// namespace atlas_engine {
+//namespace Graphics {
+//namespace gui {
+
 class PictureBox : public Widget {
 public:
 	PictureBox();
@@ -23,5 +27,9 @@ public:
 	
 	virtual ~PictureBox();
 };
+
+//}
+//}
+// } // namespace
 
 #endif // PICTURE_BOX_HPP_

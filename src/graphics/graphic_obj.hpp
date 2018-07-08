@@ -1,10 +1,14 @@
 #ifndef graphic_obj_hpp__
 #define graphic_obj_hpp__
 
-#include "../model/object.hpp"
-#include "../model/drawable.hpp"
-#include "../model/temporary.hpp"
+#include "model/object.hpp"
+#include "model/drawable.hpp"
+#include "model/temporary.hpp"
 #include "animation.hpp"
+
+// namespace atlas_engine {
+//namespace Graphics {
+
 
 /**
 	\author Zebralt
@@ -40,7 +44,11 @@ public:
     /// \brief Says if the object is ready to be deleted or not.
     bool terminated();
     
-    virtual short getStatus() { return Temporary::getStatus() ? Temporary::getStatus() : !terminated(); }
+    virtual short getStatus() { 
+        return Temporary::getStatus() ? Temporary::getStatus() : !terminated(); }
 };
+
+//} 
+// } // namespace Video
 
 #endif

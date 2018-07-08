@@ -1,9 +1,10 @@
 #ifndef TIMER_HPP_
 #define TIMER_HPP_
 
-
 #include <SFML/System/Clock.hpp>
 
+// namespace atlas_engine {
+	
 /**
 	\author Zebralt
 	\brief This is a class is built atop the class Clock provided by the SFML.
@@ -92,5 +93,7 @@ protected:
 	Timer timer;
 	int past = 0;
 };
+
+// } // namespace atlas_engine
 
 #endif // TIMER_HPP_

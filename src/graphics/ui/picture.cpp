@@ -3,6 +3,9 @@
 
 #include "picture.hpp"
 
+// namespace atlas_engine {
+//namespace Graphics {
+
 //int random(int min, int max) {
 //	return rand()%(max-min)+min;
 //}
@@ -297,3 +300,5 @@ void AnimatedPicture::setRepeat(bool b) {
 //    }
 //}
 
+//}
+// } // namespace

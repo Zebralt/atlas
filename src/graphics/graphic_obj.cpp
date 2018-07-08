@@ -1,5 +1,9 @@
-#include "../global.hpp"
+#include "global.hpp"
 #include "graphic_obj.hpp"
+
+// namespace atlas_engine {
+//namespace Graphics {
+
 
 Blob::Blob() : Drawable(), Temporary(), Object() {
     this->origin = sf::Vector2f(0,0);
@@ -15,7 +19,7 @@ Blob::Blob() : Drawable(), Temporary(), Object() {
 
 void Blob::runAnimation(Action* a) {
     if (a) {
-        if (a->type() != None) {
+        if (a->type() != AnimationType::None) {
             if (typed_animations.find(a->type()) != typed_animations.end()) {
                 _FREE(typed_animations[a->type()]);
             }
@@ -83,3 +87,7 @@ bool Blob::isOver(sf::Vector2f v) {
     v.y  >= position.y && v.y <= position.y + height);
 }
 */
+
+
+//} 
+// } // namespace Video

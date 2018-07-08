@@ -2,52 +2,20 @@
 #define PANEL_HPP_
 
 
-#include "../../global.hpp"
-#include "../../model/container.hpp"
+#include "global.hpp"
+#include "model/container.hpp"
 
 #include "widget.hpp"
 #include "picture_box.hpp"
 
+#include "layout.hpp"
+
+// namespace atlas_engine {
+//namespace Graphics {
+//namespace gui {
+
 class Engine;
 class Panel;
-
-/**
-    \author Zebralt
-    \brief A class used to layout elements in a panel.
-    Similar to the Java implementation.
-*/
-class Layout {
-public:
-    Layout() {}
-    Layout(Panel* t) { target = t;}
-    
-    /// \brief Main method to redefine for a new layout.
-    /// To be called after constructor.
-    virtual void layoutTarget() = 0;
-    void setTarget(Panel *p) { target = p;}
-
-protected:
-    Panel* target;
-    unsigned int margin = 1;
-};
-
-class ColumnLayout : public Layout {
-public:
-    ColumnLayout() : Layout() {}
-    ColumnLayout(Panel* t) : Layout(t) {}
-    void layoutTarget();
-};
-
-class GridLayout : public Layout {
-public:
-    GridLayout(int r, int c) : rows(r), cols(c), Layout() {}
-    GridLayout(Panel* t, int r, int c) : rows(r), cols(c), Layout(t) {}
-    void layoutTarget();
-    
-protected:
-    int rows,cols;
-    bool orientation = true; // left to right / f=top to bot
-};
 
 /**
 
@@ -122,5 +90,9 @@ protected:
 //
 //    }
 };
+
+//}
+//}
+// } // namespace
 
 #endif // PANEL_HPP_

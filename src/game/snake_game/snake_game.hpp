@@ -4,12 +4,13 @@
 #ifndef SNAKE_GAME_HPP_
 #define SNAKE_GAME_HPP_
 
-#include "../../global.hpp"
-#include "../../engine/time/timer.hpp"
-#include "../../engine/scene.hpp"
-#include "../../graphics/tilemap.hpp"
+#include "global.hpp"
+#include "engine/timer.hpp"
+#include "engine/scene.hpp"
+#include "graphics/tilemap.hpp"
 
 class Sprite;
+
 
 enum Direction {
 	UP = 0b1, DOWN = 0b10, LEFT = 0b100, RIGHT = 0b1000, TAIL = 0b10000, HEAD = 0b100000

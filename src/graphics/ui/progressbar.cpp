@@ -1,15 +1,25 @@
 #include <SFML/Graphics.hpp>
 
 #include "progressbar.hpp"
-#include "../animation.hpp"
-#include "../animations/progress_bar_animation.hpp"
+#include "graphics/animation.hpp"
+#include "graphics/animations/progress_bar_animation.hpp"
 
-ProgressBar::ProgressBar() : Widget() {
+// namespace atlas_engine {
+//namespace Graphics {
+//namespace gui {
+    
+ProgressBar::ProgressBar(ProgressBarStyle p) : Widget() {
     value = 100;
-    background.setFillColor(sf::Color::Black);
+    setStyle(p);
+    
+    background.setFillColor(sf::Color(30, 30, 30));
     background.setOutlineColor(sf::Color::White);
-    background.setOutlineThickness(1);
-    foreground.setFillColor(sf::Color::White);
+//    background.setOutlineThickness(1);
+    foreground.setFillColor(sf::Color(120, 120, 150));
+    setValue(50);
+    setPadding(0);
+    clear_actions();
+
 }
 
 void ProgressBar::goToValue(float t) {
@@ -26,7 +36,7 @@ void ProgressBar::setSize(int w, int h) {
     width = w;
     height = h;
     background.setSize(sf::Vector2f(w,h));
-    foreground.setSize(sf::Vector2f(w-4,h-4));
+    foreground.setSize(sf::Vector2f(w*value/100-padding*2,h-padding*2));
 }
 
 void ProgressBar::setColor(sf::Color c) {
@@ -40,22 +50,14 @@ void ProgressBar::setColor(sf::Color c) {
 void ProgressBar::setPosition(sf::Vector2f v) {
     position = origin + v;
     background.setPosition(position);
-    foreground.setPosition(position+sf::Vector2f(2,2));
+    foreground.setPosition(position+sf::Vector2f(padding, padding));
 }
 
 void ProgressBar::setOrigin(sf::Vector2f v) {
     position = position-origin+v;
     background.setPosition(position);
-    foreground.setPosition(position+sf::Vector2f(2,2));
+    foreground.setPosition(position+sf::Vector2f(padding, padding));
     origin = v;
-}
-
-void ProgressBar::onMouseOverIn() {
-
-}
-
-void ProgressBar::onMouseOverOut() {
-
 }
 
 void ProgressBar::setOpacity(int r) {
@@ -70,3 +72,22 @@ void ProgressBar::setOpacity(int r) {
 float ProgressBar::getValue() {
     return value;
 }
+
+void ProgressBar::setStyle(ProgressBarStyle p) {
+    switch(p) {
+        case ProgressBarStyle::Cursor:
+            
+            break;
+        case ProgressBarStyle::Caret:
+        
+        default:break;
+    }
+}
+
+void ProgressBar::setCursorSize(int w, int h) {
+    
+}
+
+//}
+//}
+// } // namespace Video::gui

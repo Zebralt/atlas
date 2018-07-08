@@ -1,7 +1,7 @@
 #ifndef SNAKE_TILEMAP_HPP_
 #define SNAKE_TILEMAP_HPP_
 
-#include "../global.hpp"
+#include "global.hpp"
 
 #include <SFML/Graphics.hpp>
 

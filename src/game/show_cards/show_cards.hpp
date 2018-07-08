@@ -1,7 +1,7 @@
 #ifndef SHOW_CARDS_HPP_
 #define SHOW_CARDS_HPP_
 
-#include "../../engine/scene.hpp"
+#include "engine/scene.hpp"
 
 class Card {
 public:
@@ -15,8 +15,8 @@ private:
 	std::string _description;
 };
 
-#include "../../graphics/ui/panel.hpp"
-#include "../../graphics/ui/label.hpp"
+#include "graphics/ui/panel.hpp"
+#include "graphics/ui/label.hpp"
 
 class CardView : public Panel {
 public:

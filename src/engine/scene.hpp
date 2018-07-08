@@ -1,12 +1,14 @@
 #ifndef ENGINE_PROGRAM_HPP_
 #define ENGINE_PROGRAM_HPP_
 
-#include "../global.hpp"
-#include "../model/temporary.hpp"
-#include "../model/container.hpp"
-#include "../graphics/graphic_obj.hpp"
+#include "global.hpp"
+#include "model/temporary.hpp"
+#include "model/container.hpp"
+#include "graphics/graphic_obj.hpp"
 
 #include <SFML/Graphics.hpp>
+
+// namespace atlas_engine {
 
 class Engine;
 
@@ -88,7 +90,7 @@ private:
 	uint index = 0;
 };
 
-#include "time/timer.hpp"
+#include "timer.hpp"
 
 class Label;
 
@@ -113,5 +115,7 @@ private:
 	Label* label = nullptr;
 	
 };
+
+// } // namespace atlas_engine
 
 #endif // ENGINE_PROGRAM_HPP_

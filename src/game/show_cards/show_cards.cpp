@@ -1,14 +1,14 @@
 #include "show_cards.hpp"
-#include "../../engine/engine.hpp"
-#include "../../pugixml/pugixml.hpp"
-#include "../../tools/strmanip.hpp"
+#include "engine/engine.hpp"
+#include <pugixml.hpp>
+#include "tools/strmanip.hpp"
 
 ShowCardsScene::ShowCardsScene() : Scene() {}
 
 void ShowCardsScene::initialize() {
 	
 	// load resources
-	Engine::load(FONT, "inconsolata", "resources/fonts/Inconsolata.otf");
+	Engine::load(ResourceType::FONT, "inconsolata", "resources/fonts/Inconsolata.otf");
 	
 	// load content
 	load_from_file("resources/show_cards/cards.xml");

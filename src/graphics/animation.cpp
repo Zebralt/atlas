@@ -5,11 +5,15 @@
 #include "animation.hpp"
 #include "graphic_obj.hpp"
 
-#include "../tools/vector2_operators.hpp"
+#include "tools/vector2_operators.hpp"
 
 #define compute_offset(a, b) (b - a)/float(duration * float(1000/Engine::update_interval))
 
 /// ANIMATION
+
+// namespace atlas_engine {
+//namespace Graphics {
+
 
 Animation::Animation(float duration, int wait, int interval) {
     this->interval = interval;
@@ -162,3 +166,7 @@ void Sequence::set_target(Blob* target) {
 //        status = TERMINATED;
 //    }
 //}
+
+
+//} 
+// } // namespace Video

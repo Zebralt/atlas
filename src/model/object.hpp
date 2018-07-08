@@ -1,6 +1,8 @@
 #ifndef object_hpp__
 #define object_hpp__
 
+// namespace atlas_engine {
+
 /// IDENTIFICATION CODES :
 enum ID_CODE {
 	ON_HOVER = 0b10000,
@@ -21,5 +23,7 @@ public:
     Object() {}
     virtual int hash_code() { return 0; }
 };
+
+// } // namespace atlas_engine
 
 #endif // object_hpp__

@@ -1,5 +1,8 @@
 #include "picture_box.hpp"
 
+// namespace atlas_engine {
+//namespace Graphics {
+//namespace gui {
 
 PictureBox::PictureBox() : Widget() {
 
@@ -56,3 +59,7 @@ void PictureBox::draw(sf::RenderTarget& tar, sf::RenderStates stt) const {
 	Widget::draw(tar,stt);
 	if (picture) tar.draw(*picture);
 }
+
+//}
+//}
+// } // namespace

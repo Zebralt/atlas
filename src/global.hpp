@@ -37,7 +37,6 @@ struct cmpVec2i {
 	}
 };
 
-
 /// STRUCTS
 
 struct Size {

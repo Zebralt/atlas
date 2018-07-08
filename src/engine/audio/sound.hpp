@@ -1,11 +1,14 @@
 #ifndef SOUND_HPP_
 #define SOUND_HPP_
 
-#include "../../model/temporary.hpp"
+#include "model/temporary.hpp"
 
 #include <SFML/Audio/Sound.hpp>
 #include <SFML/Audio/SoundBuffer.hpp>
 #include <SFML/Audio/Music.hpp>
+
+// namespace atlas_engine {
+//namespace Audio {
 
 /**
 	\author Zebralt
@@ -49,5 +52,8 @@ public:
 	void add_effect(MusicEffect* me);
 	void update();
 };
+
+//} 
+// } // namespace Audio
 
 #endif // SOUND_HPP_

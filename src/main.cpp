@@ -1,16 +1,12 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include "engine/engine.hpp"
-#include "game/snake_game/snake_game.hpp"
+//#include "game/snake_game/snake_game.hpp"
 #include "engine/pipeline.hpp"
 
-#include "game/show_cards/show_cards.hpp"
-
-#include "../test/test.hpp"
+#include "test/test.hpp"
 
 #include <windows.h>
-
-#include "engine/pipeline.hpp"
 
 int test_SFML();
 

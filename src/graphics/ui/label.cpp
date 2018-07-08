@@ -2,6 +2,10 @@
 
 #include "label.hpp"
 
+// namespace atlas_engine {
+//namespace Graphics {
+//namespace gui {
+
 Label::Label() : Label(Engine::get_global_font()) {
     
 }
@@ -122,3 +126,7 @@ void Label::setOpacity(int r) {
 sf::Text& Label::getText() {
     return label;
 }
+
+//}
+//}
+// } // namespace

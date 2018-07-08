@@ -1,20 +1,24 @@
 #ifndef temporary_hpp__
 #define temporary_hpp__
 
-#include "../global.hpp"
+#include "global.hpp"
 
 #include <vector>
 #include <map>
 
+// namespace atlas_engine {
+
 enum TemporaryState {
 	TERMINATED, RUNNING, IDLE
 };
+//bool running(const TemporaryState& ts) { return ts != TemporaryState::TERMINATED; }
+//bool operator!(const TemporaryState& ts) { return running(ts); }
 
 #define TERMINATE status = TERMINATED
 
 class Temporary {
 protected:
-    short status = 1;
+    short status = TemporaryState::RUNNING;
 public:
     Temporary() {}
     virtual short getStatus() { return status; }
@@ -54,5 +58,7 @@ template <typename U, typename T> void update_or_delete(std::map<U, T*>& items) 
         ++it;
     }
 }
+
+// } // namespace atlas_engine
 
 #endif

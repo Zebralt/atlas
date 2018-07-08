@@ -1,5 +1,9 @@
 #include "widget.hpp"
 
+// namespace atlas_engine {
+//namespace Graphics {
+//namespace gui {
+
 int Widget::id = 0;
 
 Widget::Widget() : MouseReceptiveSurface() { 
@@ -27,4 +31,8 @@ std::string Widget::getName() {
 
 int Widget::hash_code() { 
 	return MouseReceptiveSurface::hash_code();// | Blob::hash_code(); 
-	}
+}
+
+//}
+//}
+// } // namespace Video::gui

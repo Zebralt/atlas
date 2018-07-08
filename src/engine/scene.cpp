@@ -1,13 +1,14 @@
 #include "scene.hpp"
 #include "engine.hpp"
-#include "../graphics/ui/picture.hpp"
-#include "../graphics/animations/translation.hpp"
-#include "../graphics/ui/label.hpp"
-#include "../graphics/ui/button.hpp"
-#include "../graphics/ui/panel.hpp"
-#include "../tools/strmanip.hpp"
+#include "graphics/ui/picture.hpp"
+#include "graphics/ui/label.hpp"
+#include "graphics/ui/button.hpp"
+#include "graphics/ui/panel.hpp"
+#include "tools/strmanip.hpp"
 
 // You should explore the principle of 'Scene's
+
+// namespace atlas_engine {
 
 Scene::Scene() {}
 
@@ -41,7 +42,7 @@ void create_panel() {
 	
 	panel->get(0)->setMouseClickAction([panel](){
 		panel->runAnimation(new FadeIn(4));
-		panel->setStatus(TERMINATED);
+		panel->setStatus(TemporaryState::TERMINATED);
 	});
 	
 	Engine::register_widget(panel);
@@ -131,14 +132,14 @@ void EngineLogoScene::terminate() {
 
 void EngineLogoScene::update() {
 	int now = timer.as_milliseconds();
-	if (status == RUNNING && now - past > 17) {
+	if (status == TemporaryState::RUNNING && now - past > 17) {
 		Scene::update();
 		label->setText(insert_args(default_message, {std::to_string(count)}));
 				
 		past = now;
 	}
 	
-	if (status == RUNNING && now - get_timer("countdown_to_exit") > 1000) {
+	if (status == TemporaryState::RUNNING && now - get_timer("countdown_to_exit") > 1000) {
 		count--;
 		if (!count) {
 			terminate();
@@ -163,7 +164,7 @@ void SceneSequence::initialize() {
 		scenes[index]->initialize();
 	}
 	else {
-		status = TERMINATED;
+		status = TemporaryState::TERMINATED;
 	}
 }
 
@@ -172,13 +173,13 @@ void SceneSequence::terminate() {
 		scenes[index]->terminate();
 	}
 	else {
-		status = TERMINATED;
+		status = TemporaryState::TERMINATED;
 	}
 }
 
 void SceneSequence::update() {
 	if (!scenes.size() || index >= scenes.size()) {
-		status = TERMINATED;
+		status = TemporaryState::TERMINATED;
 	}
 	else if (!scenes[index] || !scenes[index]->getStatus()) {
 		if (scenes[index]) {
@@ -190,3 +191,5 @@ void SceneSequence::update() {
 		}
 	}
 }
+
+// } // namespace atlas_engine

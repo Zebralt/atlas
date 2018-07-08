@@ -3,7 +3,9 @@
 
 #include <SFML/Graphics.hpp>
 
-#include "../global.hpp"
+#include "global.hpp"
+
+// namespace atlas_engine {
 
 /**
     \author Zebralt
@@ -65,5 +67,7 @@ template <typename T,typename U> bool encompass(sf::Vector2<T> point, sf::Rect<U
     return b;
 }
 */
+
+// } // namespace atlas_engine
 
 #endif

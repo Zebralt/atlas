@@ -3,6 +3,10 @@
 
 #include <vector>
 #include <string>
+#include <sstream>
+
+// namespace atlas_engine {
+//namespace Tools {
 
 /** This file contains various string manipulation methods and other handy functions.
 */
@@ -30,5 +34,31 @@ std::string insert_args(const std::string& str, const std::vector<std::string>& 
 
 /// Wrap text at specified length (simply add '\n')
 std::string wrap_text(const std::string& str, int len);
+
+/// Join strings to make one string.
+template <typename T>
+std::string join(const std::vector<T>& items, const std::string& delimiter) {
+	std::stringstream result;
+	auto first = true;
+	
+	for (auto item : items) {
+		if (first) {
+			first = false;
+		}
+		else {
+			result << delimiter;
+		}
+		result << item;
+	}
+	
+	return result.str();
+}
+
+std::vector<std::string> splitAndPreserve(const std::string& str, const std::vector<std::string>& delimiters);
+std::vector<std::string> splitAndPreserve(const std::string& str, const std::string& chars);
+std::string formatTime(int duration, const std::string& format);
+
+//} 
+// } // namespace Tools
 
 #endif // STRMANIP_HPP_

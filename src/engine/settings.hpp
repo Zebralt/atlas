@@ -3,7 +3,9 @@
 
 #include <fstream>
 #include <map>
-#include "../tools/xml_document.hpp"
+#include "tools/xml_document.hpp"
+
+// namespace atlas_engine {
 
 class EngineSettings : public XmlDocument {
 	public:
@@ -91,5 +93,7 @@ class Event {
 //	void unregisterEvent(const std::string& eventName);
 //	virtual void onEvent(const Event& event) = 0;
 //};
+
+// } // namespace atlas_engine
 
 #endif // settings_hpp__

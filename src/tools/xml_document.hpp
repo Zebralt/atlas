@@ -4,6 +4,10 @@
 #include <iostream>
 #include <pugixml.hpp>
 
+// namespace atlas_engine {
+//namespace Tools {
+
+
 /**
 	\brief Wrapper for pugixml.
 */
@@ -20,5 +24,8 @@ public:
 };
 
 XmlDocument parse_xml(const std::string& filepath);
+
+//} 
+// } // namespace Tools
 
 #endif

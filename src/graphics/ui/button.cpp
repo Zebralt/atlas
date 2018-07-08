@@ -1,12 +1,21 @@
 #include "button.hpp"
 
-Button::Button() : Label() {}
-Button::Button(sf::Font* f) : Label(f) {}
-Button::Button(const std::string& text, sf::Font* f) : Label(text, f) {}
+// namespace atlas_engine {
+//namespace Graphics {
+//namespace gui {
+
+Button::Button() : Label() { setBackgroundColor(sf::Color(180, 180, 180)); }
+Button::Button(const std::string& text) : Label(text) { setBackgroundColor(sf::Color(180, 180, 180)); }
+Button::Button(sf::Font* f) : Label(f) { setBackgroundColor(sf::Color(180, 180, 180)); }
+Button::Button(const std::string& text, sf::Font* f) : Label(text, f) { setBackgroundColor(sf::Color(180, 180, 180)); }
 
 void Button::set_action(const std::function<void(void)>& action) {
     setMouseClickAction(action);
 }
+
+//}
+//}
+// } // namespace Video::gui
 
 /*#include <iostream>
 

@@ -1,6 +1,8 @@
 #include "pipeline.hpp"
 
-std::string getTypeName(const PARAMETER_TYPE& pt) {
+// namespace atlas_engine {
+
+std::string getTypeName(const ParameterType& pt) {
 	return std::vector<std::string>({"INTEGER", "FLOAT", "STRING"})[pt];
 }
 
@@ -60,8 +62,11 @@ PipelineUnit<int>* EnginePipeline::identifyPipelineUnit(const std::string& name)
 //		LOG("Issued SnakeGame PU");
 		return new SnakeGamePipelineUnit();
 	}
+	if (name == "music_player") {
+		return new MusicPlayerScenePipelineUnit();
+	}
 	
 	return nullptr;
 }
 
-
+// } // namespace atlas_engine

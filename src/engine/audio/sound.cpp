@@ -1,6 +1,9 @@
-#include "../../global.hpp"
+#include "global.hpp"
 
 #include "sound.hpp"
+
+// namespace atlas_engine {
+//    namespace Audio {
 
 Sound::Sound() {}
 
@@ -52,3 +55,6 @@ Music::Music(const std::string& path) : sf::Music() {
 void Music::update() {
 
 }
+
+//} 
+// } // namespace Audio

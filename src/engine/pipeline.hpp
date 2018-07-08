@@ -1,18 +1,20 @@
 #ifndef PIPELINE_HPP_
 #define PIPELINE_HPP_
 
-#include "../model/container.hpp"
-#include "../tools/xml_document.hpp"
+#include "model/container.hpp"
+#include "tools/xml_document.hpp"
 
 #include <iostream>
 #include <vector>
 #include <map>
 
-enum PARAMETER_TYPE {
-	INTEGER_PARAMETER, FLOAT_PARAMETER, STRING_PARAMETER
+// namespace atlas_engine {
+
+enum ParameterType {
+	Integer, Float, String
 };
 
-std::string getTypeName(const PARAMETER_TYPE& pt);
+std::string getTypeName(const ParameterType& pt);
 
 /**
 	\brief This class embodies a unit of a pipeline. When parsing the
@@ -33,8 +35,8 @@ public:
 	
 
 	///	\brief Returns the list of parameters for the PU.	
-	virtual std::map<std::string, PARAMETER_TYPE> parameters() const {
-		return std::map<std::string, PARAMETER_TYPE>();
+	virtual std::map<std::string, ParameterType> parameters() const {
+		return std::map<std::string, ParameterType>();
 	};
 	
 	/// \brief Used by the parser to send the parameters' values to the PU.
@@ -170,7 +172,7 @@ private:
 	XmlDocument xml_doc;
 };
 
-#include "../../test/test.hpp"
+#include "test/test.hpp"
 #include "engine.hpp"
 
 /**
@@ -186,9 +188,9 @@ public:
 		return 0; 
 	}
 	
-	std::map<std::string, PARAMETER_TYPE> parameters() const {
-		std::map<std::string, PARAMETER_TYPE> params;
-		params["output"] = STRING_PARAMETER;
+	std::map<std::string, ParameterType> parameters() const {
+		std::map<std::string, ParameterType> params;
+		params["output"] = ParameterType::String;
 		return params;
 	}
 	
@@ -200,7 +202,7 @@ private:
 	std::string test_output;
 };
 
-#include "../game/snake_game/snake_game.hpp"
+#include "game/snake_game/snake_game.hpp"
 
 /**
 	\brief A pipeline unit to start the snake game.
@@ -217,6 +219,7 @@ public:
 	}
 };
 
+#include "engine/scene.hpp"
 class LogoScenePipelineUnit : public PipelineUnit<int> {
 public:
 	LogoScenePipelineUnit(){}
@@ -229,7 +232,7 @@ public:
 	}
 };
 
-#include "../game/show_cards/show_cards.hpp"
+#include "game/show_cards/show_cards.hpp"
 class ShowCardsScenePipelineUnit : public PipelineUnit<int> {
 public:
 	ShowCardsScenePipelineUnit(){}
@@ -241,5 +244,20 @@ public:
 		return Engine::get_status();
 	}
 };
+
+#include "game/music_player/music_player.hpp"
+class MusicPlayerScenePipelineUnit : public PipelineUnit<int> {
+public:
+	MusicPlayerScenePipelineUnit(){}
+	
+	int run(int) {
+		Engine::init();
+		Engine::load_scene(new MusicPlayerScene());
+		Engine::run();
+		return Engine::get_status();
+	}
+};
+
+//}
 
 #endif // PIPELINE_HPP_

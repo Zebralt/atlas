@@ -5,14 +5,23 @@
 
 #include <functional> 
 
+// namespace atlas_engine {
+//namespace Graphics {
+//namespace gui {
+
 class Button : public Label {
 public:
     Button();
     Button(sf::Font*);
+    Button(const std::string& text);
     Button(const std::string& text, sf::Font*);
     
     virtual void set_action(const std::function<void(void)>&);
 };
+
+//}
+//}
+// } // namespace Video::gui
 
 #endif // BUTTON_HPP_
 

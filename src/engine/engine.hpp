@@ -12,12 +12,15 @@
 
 /// Proprietary headers
 #include "settings.hpp"
-#include "../global.hpp"
-#include "time/timer.hpp"
-#include "../model/container.hpp"
+#include "global.hpp"
+#include "timer.hpp"
+#include "model/container.hpp"
 
 // ^Please follow this order of headers includes.
 // Indentation is of 4 spaces.
+
+// ATLAS
+// namespace atlas_engine {
 
 class Sound;
 class Music;
@@ -38,7 +41,7 @@ class MenuController;
 /// For example, if `status = ENGINE_INMENU`, it will assume
 /// that a menu is focused, so the arrows may be used to cycle
 /// through the menu's items, and 'Enter' to select an item.
-enum ENGINE_STATE {
+enum EngineState {
  ENGINE_TERMINATED  = 0,
  ENGINE_INMENU      = 0b100000,
  ENGINE_LOADING     = 0b010000,
@@ -49,7 +52,7 @@ enum ENGINE_STATE {
  ENGINE_TRANSITION  = 0b1000000
 };
 
-enum RESOURCE_TYPE {
+enum ResourceType {
 	TEXTURE, SOUND, MUSIC, FONT
 };
 
@@ -146,7 +149,7 @@ public:
 	
 	/// \brief This method will call the appropriate resource loading function depending on the 
 	/// resource type parameter.
-	static bool load(RESOURCE_TYPE type, const std::string& name, const std::string& filepath);
+	static bool load(ResourceType type, const std::string& name, const std::string& filepath);
 	
 	/// \brief This method will call the appropriate resource getter depending on resource type.
 	static sf::Texture* get_texture(const std::string& name) { return get()._get_texture(name); }
@@ -246,7 +249,7 @@ public:
 	bool load_font(const std::string& name, const std::string& path);
 	
 	/// \brief Loads a generic resource from a filepath and registers it under a name. 
-	bool load_resource(const std::string& name, RESOURCE_TYPE resource_type, const std::string& path);
+	bool load_resource(const std::string& name, ResourceType resource_type, const std::string& path);
 	
 	/// \brief Returns the global font of the engine. Global and default.
 	sf::Font* _get_global_font();
@@ -352,5 +355,7 @@ private:
 	/// OTHERS
 	sf::Color refresh_background_color = sf::Color::Black;
 };
+
+// } // namespace atlas_engine
 
 #endif // ENGINE_HPP_

@@ -1,7 +1,7 @@
 #include "snake_game.hpp"
-#include "../../engine/engine.hpp"
-#include "../../graphics/ui/picture.hpp"
-//#include "../tools/vector2_operators.hpp"
+#include "engine/engine.hpp"
+#include "graphics/ui/picture.hpp"
+//#include "tools/vector2_operators.hpp"
 
 #include <ctime>
 
@@ -48,7 +48,7 @@ void SnakeGame::update() {
 	if (status) {
 		// check for snake overlap
 		if (std::find(snake.begin() + 1, snake.end(), head()) != snake.end()) {
-			status = TERMINATED;
+			status = TemporaryState::TERMINATED;
 			return;
 		}
 		// update with current direction

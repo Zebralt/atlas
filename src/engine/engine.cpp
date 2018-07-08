@@ -1,17 +1,19 @@
-#include "../global.hpp"
+#include "global.hpp"
 #include "engine.hpp"
 #include "scene.hpp"
 
-#include "../tools/strmanip.hpp"
+#include "tools/strmanip.hpp"
 #include "audio/sound.hpp"
 
 /// UI
-#include "../graphics/ui/widget.hpp"
-#include "../graphics/ui/panel.hpp"
+#include "graphics/ui/widget.hpp"
+#include "graphics/ui/panel.hpp"
 
 #include <iomanip>
 
 /// 
+
+// namespace atlas_engine {
 
 Engine* Engine::singleton = nullptr;
 int Engine::update_interval = 16;
@@ -24,7 +26,7 @@ Engine::Engine() {
 
 /// STATIC METHODS
 
-bool Engine::load(RESOURCE_TYPE type, const std::string& name, const std::string& filepath) {
+bool Engine::load(ResourceType type, const std::string& name, const std::string& filepath) {
     return get().load_resource(name, type, filepath);
 }
 
@@ -57,7 +59,7 @@ Sprite* Engine::create_sprite(sf::Texture* tex, const Rect& r) {
 
 // with a texture path
 Sprite* Engine::create_sprite(const std::string& filepath) {
-        if (load(TEXTURE, filepath, filepath)) {
+        if (load(ResourceType::TEXTURE, filepath, filepath)) {
         return create_sprite(get().get_texture(filepath));
     }
     else 
@@ -65,7 +67,7 @@ Sprite* Engine::create_sprite(const std::string& filepath) {
 }
 
  Sprite* Engine::create_sprite(const std::string& filepath, const Rect& rect) {
-    if (load(TEXTURE, filepath, filepath)) {
+    if (load(ResourceType::TEXTURE, filepath, filepath)) {
         return create_sprite(get().get_texture(filepath), rect);
     }
     else 
@@ -113,10 +115,10 @@ Widget* Engine::get_widget(const std::string& name) {
 
 void load_default() {
     std::string windows_fonts_prefix = "C:/Windows/Fonts/";
-    Engine::load(FONT, "arial", windows_fonts_prefix + "ARIAL.TTF");
-    Engine::load(FONT, "segoe", windows_fonts_prefix + "SEGOEUI.TTF");
-    Engine::load(FONT, "segoe_semi_light", windows_fonts_prefix + "SEGOEUISL.TTF");
-    Engine::load(FONT, "segoe_light", windows_fonts_prefix + "SEGOEUIL.TTF");
+    Engine::load(ResourceType::FONT, "arial", windows_fonts_prefix + "ARIAL.TTF");
+    Engine::load(ResourceType::FONT, "segoe", windows_fonts_prefix + "SEGOEUI.TTF");
+    Engine::load(ResourceType::FONT, "segoe_semi_light", windows_fonts_prefix + "SEGOEUISL.TTF");
+    Engine::load(ResourceType::FONT, "segoe_light", windows_fonts_prefix + "SEGOEUIL.TTF");
 }
 
 bool Engine::init_engine(const std::string& settings_path) {
@@ -379,15 +381,15 @@ bool Engine::load_music(const std::string& name, const std::string& path) {
 	return true;
 }
 
-bool Engine::load_resource(const std::string& name, RESOURCE_TYPE resource_type, const std::string& path) {
+bool Engine::load_resource(const std::string& name, ResourceType resource_type, const std::string& path) {
     switch (resource_type) {
-    case SOUND:
+    case ResourceType::SOUND:
         return load_sound(name, path);
-    case MUSIC:
+    case ResourceType::MUSIC:
         return load_music(name, path);
-    case TEXTURE:
+    case ResourceType::TEXTURE:
         return load_texture(name, path);
-    case FONT:
+    case ResourceType::FONT:
         return load_font(name, path);
     }
     
@@ -580,3 +582,5 @@ void Engine::close_engine() {
 bool operator<(const EngineViewport& a, const EngineViewport& b) {
 	return a.z_index < b.z_index;
 }
+
+// } // namespace atlas_engine

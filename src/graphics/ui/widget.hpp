@@ -3,6 +3,10 @@
 
 #include "mouseover.hpp"
 
+// namespace atlas_engine {
+//namespace Graphics {
+//namespace gui {
+
 /**
     \author Zebralt
     \brief This class is the basis for all widgets.
@@ -24,5 +28,9 @@ public:
 //    virtual void onMouseLeave();
     virtual int hash_code();
 };
+
+//}
+//}
+// } // namespace Video::gui
 
 #endif // WIDGET_HPP_

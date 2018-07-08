@@ -3,9 +3,12 @@
 
 #include <SFML/Graphics.hpp>
 
-#include "../../global.hpp"
-#include "../graphic_obj.hpp"
-#include "../../engine/time/timer.hpp"
+#include "global.hpp"
+#include "graphics/graphic_obj.hpp"
+#include "engine/timer.hpp"
+
+// namespace atlas_engine {
+//namespace Graphics {
 
 int random(int,int);
 
@@ -129,5 +132,8 @@ private:
 //    void addState(std::string name, APState);
 //    
 //};
+
+//}
+// } // namespace
 
 #endif

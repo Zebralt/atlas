@@ -1,9 +1,13 @@
 #ifndef mouseover_hpp__
 #define mouseover_hpp__
 
-#include "../graphic_obj.hpp"
+#include "graphics/graphic_obj.hpp"
+#include "tools/color.hpp"
 
 #include <functional>
+
+// namespace atlas_engine {
+//namespace Graphics {
 
 /**
     \author Zebralt
@@ -99,13 +103,16 @@ private:
     bool hovering = false;
     sf::View* targetView = nullptr;
     std::function<void(void)> on_mouse_enter_action = [this](){
-        setBackgroundColor(sf::Color::Blue);
+        setBackgroundColor(darker(background.getFillColor(), 20));
     };
     std::function<void(void)> on_mouse_leave_action = [this](){
-        setBackgroundColor(sf::Color::Green);
+        setBackgroundColor(brighter(background.getFillColor(), 20));
     };
     std::function<void(void)> on_mouse_click_action = [](){};
     std::function<void(const Vec2&)> on_mouse_move_action = [](const Vec2&){};
 };
+
+//}
+// } // namespace Video
 
 #endif // mouseover_hpp__

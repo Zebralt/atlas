@@ -5,6 +5,10 @@
 
 #include "widget.hpp"
 
+// namespace atlas_engine {
+//namespace Graphics {
+//namespace gui {
+
 /// You can wrap text with '\n', but you need to wrap it manually.
 
 enum TextAlign {Left,Center,Right};
@@ -47,5 +51,9 @@ protected:
         tar.draw(label);
     }
 };
+
+//}
+//}
+// } // namespace
 
 #endif

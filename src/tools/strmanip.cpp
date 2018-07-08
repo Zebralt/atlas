@@ -3,7 +3,10 @@
 #include <sstream>
 #include <fstream>
 
-#include "../global.hpp"
+#include "global.hpp"
+
+// namespace atlas_engine { 
+//namespace Tools {
 
 std::vector<std::string> split(const std::string& str, const char& delimiter) {
 	std::vector<std::string> items;
@@ -169,3 +172,28 @@ std::string wrap_text(const std::string& str, int len) {
 //	
 	return result;
 }
+
+std::vector<std::string> splitAndPreserve(const std::string& str, const std::vector<std::string>& delimiters) {
+	return std::vector<std::string>();
+}
+
+std::vector<std::string> splitAndPreserve(const std::string& str, const std::string& chars) {
+	std::vector<std::string> s;
+	for (auto c : chars) {
+		s.push_back("" + c);
+	}
+	return splitAndPreserve(str, s);
+}
+
+// in seconds ?
+// HH:mm:ss.SSS
+std::string formatTime(int duration, const std::string& format) {
+//	std::stringstream stream;
+//	auto elems = splitAndPreserve(format, ".:");
+//		
+//		
+//	return stream.str();
+}
+
+//} 
+// } // namespace Tools

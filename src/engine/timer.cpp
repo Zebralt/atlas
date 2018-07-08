@@ -1,5 +1,7 @@
 #include "timer.hpp"
 
+// namespace atlas_engine {
+
 void Timer::stop() {
 	status = 0;
 	// I added those because there were some margins. 
@@ -59,3 +61,5 @@ sf::Time Timer::time() {
 int Timer::as_milliseconds() {
 	return time().asMilliseconds();
 }
+
+// } // namespace atlas_engine

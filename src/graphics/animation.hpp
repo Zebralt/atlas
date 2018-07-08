@@ -3,15 +3,19 @@
 
 #include <SFML/Graphics.hpp>
 
-#include "../global.hpp"
-#include "../model/temporary.hpp"
-#include "../model/container.hpp"
-#include "../engine/time/timer.hpp"
-#include "../engine/engine.hpp"
+#include "global.hpp"
+#include "model/temporary.hpp"
+#include "model/container.hpp"
+#include "engine/timer.hpp"
+#include "engine/engine.hpp"
 
 
 #define TIMEWISE_PARAMS float duration, int wait = 0, int interval = 0
 #define TARGETTIMEWISE_PARAMS Blob* target, TIMEWISE_PARAMS
+
+// namespace atlas_engine {
+//namespace Graphics {
+
 
 class Label;
 class Blob;
@@ -33,7 +37,7 @@ public:
     Animation(TIMEWISE_PARAMS);
     bool isRunning();
     int getPast();
-    virtual AnimationType type() { return None; };
+    virtual AnimationType type() { return AnimationType::None; };
     virtual ~Animation() {}
 protected:
     int interval = Engine::update_interval;
@@ -67,21 +71,21 @@ class FadeIn : public Action {
 public:
     FadeIn(TIMEWISE_PARAMS);
     void update();
-    virtual AnimationType type() { return Fading; }
+    virtual AnimationType type() { return AnimationType::Fading; }
 };
 
 class FadeOut : public Action {
 public:
     FadeOut(TIMEWISE_PARAMS);
     void update();
-    virtual AnimationType type() { return Fading; }
+    virtual AnimationType type() { return AnimationType::Fading; }
 };
 
 class Fade : public Action {
 public:
     Fade(int goal, TIMEWISE_PARAMS);
     void udpate();
-    virtual AnimationType type() { return Fading; }
+    virtual AnimationType type() { return AnimationType::Fading; }
 protected:
     int goal;
 };
@@ -90,7 +94,7 @@ class Move : public Action {
 public:
     Move(const Vec2&, TIMEWISE_PARAMS);
     void update();
-    virtual AnimationType type() { return Movement; }
+    virtual AnimationType type() { return AnimationType::Movement; }
 protected:
     Vec2f vec;
     Vec2f buffer;
@@ -101,14 +105,14 @@ class GoTo : public Move {
 public:
     GoTo(const Vec2&, TIMEWISE_PARAMS);
     void set_target(Blob* target);
-    virtual AnimationType type() { return Movement; }
+    virtual AnimationType type() { return AnimationType::Movement; }
 };
 
 class TextAnimation : public Action {
 public:
     TextAnimation(TIMEWISE_PARAMS);
     void set_target(Label* target);
-    virtual AnimationType type() { return Text; }
+    virtual AnimationType type() { return AnimationType::Text; }
 };
 
 class RollNumbers : public TextAnimation {
@@ -150,5 +154,8 @@ public:
     WaitAndBeStill(Blob* w, int wait);
     void update();
 };
+
+//} 
+// } // namespace Video
 
 #endif // ANIMATION_HPP_

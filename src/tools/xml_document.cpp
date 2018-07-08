@@ -1,6 +1,9 @@
 #include "xml_document.hpp"
 #include "strmanip.hpp"
-#include "../global.hpp"
+#include "global.hpp"
+
+// namespace atlas_engine {
+//namespace Tools {
 
 //pugi::xml_document parse_xml(const std::string& filepath) {
 //	pugi::xml_document doc;
@@ -89,3 +92,6 @@ bool XmlDocument::has(const std::string& name) {
 	return node.child(last_name.c_str()) || node.attribute(last_name.c_str());
 	
 }
+
+//} 
+// } // namespace Tools
