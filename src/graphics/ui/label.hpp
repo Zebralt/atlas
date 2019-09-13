@@ -4,6 +4,7 @@
 #include <SFML/Graphics.hpp>
 
 #include "widget.hpp"
+#include <cmath>
 
 // namespace atlas_engine {
 //namespace Graphics {

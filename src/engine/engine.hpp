@@ -72,12 +72,12 @@ bool operator<(const EngineViewport& a, const EngineViewport& b);
 /**
 	\author Zebralt
 	\brief This is the main class figuring the engine. The Engine class
-	manages resources (textures, sounds, fonts, musics. It is the main 
+	manages resources (textures, sounds, fonts, musics. It is the main
 	interface to the engine features. As there is no need for more than
 	one object of this class, and to render access to methods and parameters
-	easier, it follows the Singleton design pattern. You can access the 
-	singleton object with `get()`. 
-	To use the engine, you need to call `init()` first. This will load 
+	easier, it follows the Singleton design pattern. You can access the
+	singleton object with `get()`.
+	To use the engine, you need to call `init()` first. This will load
 	settings and initialize the SFML interface. Next, you can load a scene
 	with `load_scene(Scene*)`. If you do not, a default scene will be started
 	up instead. Finally, you may start the engine with `run()`. The engine
@@ -87,7 +87,7 @@ bool operator<(const EngineViewport& a, const EngineViewport& b);
 */
 class Engine : public TimeEnabled {
 public:
-	/// SINGLETON 
+	/// SINGLETON
 	
 	/// \brief Returns the singleton object of the class Engine.
 	/// It will be initialized if not already created.
@@ -98,7 +98,7 @@ public:
 		return *singleton;
 	}
 	
-	/// \brief Initializes the engine.This will load settings from a XML file 
+	/// \brief Initializes the engine.This will load settings from a XML file
 	/// (currently 'settings.xml', sitting at the root of the project) and
 	/// initialize the SFML interface (context settings and render window).
 	static bool init(const std::string& settings_path = "") {
@@ -143,11 +143,11 @@ public:
 	/// it is accessible as static. public or not public ? One can wonder.
 	static int update_interval;
 	
-	/// \brief This allows to load a texture from a filepath, registering it under a 
+	/// \brief This allows to load a texture from a filepath, registering it under a
 	/// name from which it can be called upon later.
 	static sf::Texture* create_texture(const std::string& name, const std::string& filepath);
 	
-	/// \brief This method will call the appropriate resource loading function depending on the 
+	/// \brief This method will call the appropriate resource loading function depending on the
 	/// resource type parameter.
 	static bool load(ResourceType type, const std::string& name, const std::string& filepath);
 	
@@ -201,7 +201,7 @@ public:
 	/// \brief Retrieves a widget by name, if it exists.
 	static Widget* get_widget(const std::string& name);
 	
-	/// \brief Returns the position of the mouse relative to the screen. The mouse position is 
+	/// \brief Returns the position of the mouse relative to the screen. The mouse position is
 	/// updated whenever it moves.
 	static Vec2 get_mouse_position() {
 		return mouse_position;
@@ -239,16 +239,16 @@ public:
 	/// parameter to render one color transparent in the texture (Doesn't work very well, I'm afraid).
 	bool load_texture(const std::string& name, const std::string& path, const std::string& alpha = "");
 	
-	/// \brief Loads a sound from a filepath and registers it under a name. 
+	/// \brief Loads a sound from a filepath and registers it under a name.
 	bool load_sound(const std::string& name, const std::string& path);
 	
-	/// \brief Loads a music track from a filepath and registers it under a name. 
+	/// \brief Loads a music track from a filepath and registers it under a name.
 	bool load_music(const std::string& name, const std::string& path);
 	
-	/// \brief Loads a font from a filepath and registers it under a name. 
+	/// \brief Loads a font from a filepath and registers it under a name.
 	bool load_font(const std::string& name, const std::string& path);
 	
-	/// \brief Loads a generic resource from a filepath and registers it under a name. 
+	/// \brief Loads a generic resource from a filepath and registers it under a name.
 	bool load_resource(const std::string& name, ResourceType resource_type, const std::string& path);
 	
 	/// \brief Returns the global font of the engine. Global and default.
@@ -299,7 +299,7 @@ private:
 //	std::vector<Animation*> animations;
     // If you want to have some game objects mouseover or mouseclick -enabled,
     // you'll have to add to the widgets, or rethink this structure
-    
+
     // You might want to have different viewports on your screen
 	std::map<EngineViewport, std::vector<Blob*>> view_blobs;
 	
@@ -309,14 +309,14 @@ private:
     std::map<std::string, sf::Texture*> textures; // TEXTURES. Only refer to them in blobs.
     std::map<std::string, Sound*> sounds; // SOUNDS. To be occasionally played.
     std::map<std::string, Music*> musics; // MUSICS. To be played in background.
-    
+
     bool load_global_font(const std::string& path);
-    
+
     /// SINGLETON
     static Engine* singleton;
     static Vec2 mouse_position;
     Engine();	
-    
+
     /// This must be run first.
 	bool init_engine(const std::string& settings_path = "");
 	
@@ -330,8 +330,8 @@ private:
 	Stack<MenuController*> menu_stack;
 	
 	/// Menu interface
-	/// The idea is that the menus contained in the menu_stack are modal menus. They will block 
-	/// the rest of the program. This feature should be use either for an all-menu scene (such as 
+	/// The idea is that the menus contained in the menu_stack are modal menus. They will block
+	/// the rest of the program. This feature should be use either for an all-menu scene (such as
 	/// main title, for example) or a pause menu.
 	/// If you want to stack menus without it being modal, you can just have each menu open another
 	/// menu, and have that menu close upon conditions you define.
@@ -350,8 +350,8 @@ private:
     Widget* _get_widget(const std::string& name);
     std::vector<Widget*>::iterator find_widget(const std::string& name);
     std::vector<Widget*>::iterator find_widget(Widget*);
-    
-    
+
+
 	/// OTHERS
 	sf::Color refresh_background_color = sf::Color::Black;
 };

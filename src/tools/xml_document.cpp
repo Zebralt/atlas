@@ -25,9 +25,9 @@
 //	return doc;
 //}
 
-XmlDocument parse_xml(const std::string& filepath) {
-	return XmlDocument(filepath);
-}
+// XmlDocument parse_xml(const std::string& filepath) {
+// 	return XmlDocument(filepath);
+// }
 
 XmlDocument::XmlDocument() {}
 XmlDocument::XmlDocument(const std::string& filepath) {

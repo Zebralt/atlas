@@ -1,6 +1,8 @@
 #ifndef SLIDING_WINDOW_HPP_
 #define SLIDING_WINDOW_HPP_
 
+#include <vector>
+
 template <typename T>
 class SlidingWindow {
 public:

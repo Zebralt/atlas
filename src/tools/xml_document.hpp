@@ -23,7 +23,7 @@ public:
 	bool has(const std::string& name);
 };
 
-XmlDocument parse_xml(const std::string& filepath);
+// XmlDocument parse_xml(const std::string& filepath);
 
 //} 
 // } // namespace Tools

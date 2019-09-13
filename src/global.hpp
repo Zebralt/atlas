@@ -5,6 +5,7 @@
 */
 
 #include <iostream>
+#include <vector>
 #include <SFML/Graphics/Rect.hpp>
 
 //#include "tools/vector2_operators.hpp"
@@ -24,7 +25,10 @@ typedef sf::IntRect Rect;
 typedef sf::Vector2f Vec2f;
 typedef sf::Vector2i Vec2;
 
-template <typename T> class ptr_vector : public std::vector<T*> {};
+template <typename T> class ptr_vector : 
+public std::vector<T*> {
+
+};
 
 /// FUNCTIONS
 template <typename T> std::ostream& operator<<(std::ostream& o, const sf::Vector2<T>& v) {

@@ -1,4 +1,4 @@
-#include "global.hpp"
+#include "../../global.hpp"
 
 #include "sound.hpp"
 
@@ -45,7 +45,7 @@ void Sound::set_volume(const float& f) {
 /////////////////
 
 Music::Music() : sf::Music() {
-	
+
 }
 
 Music::Music(const std::string& path) : sf::Music() {
@@ -56,5 +56,5 @@ void Music::update() {
 
 }
 
-//} 
+//}
 // } // namespace Audio

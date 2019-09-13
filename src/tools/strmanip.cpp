@@ -3,7 +3,7 @@
 #include <sstream>
 #include <fstream>
 
-#include "global.hpp"
+#include "../global.hpp"
 
 // namespace atlas_engine { 
 //namespace Tools {
